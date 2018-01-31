@@ -32,19 +32,11 @@ public class LoginController {
     @Path("loginAluno/{matricula}/{senha}")
     public Response loginAluno(@PathParam("matricula") String matricula, @PathParam("senha") String senha) {
 
-        try {
+        AlunoDAO alunoDao = new AlunoDAO();
 
-            AlunoDAO alunoDao = new AlunoDAO();
-
-            if (alunoDao.loginAluno(matricula, senha))
-                return Response.ok().build();
-            else
-                return Response.status(Response.Status.UNAUTHORIZED).build();
-
-        } catch (Exception e) {
+        if (alunoDao.loginAluno(matricula, senha))
+            return Response.ok().build();
+        else
             return Response.status(Response.Status.UNAUTHORIZED).build();
-        }
-
-
     }
 }
