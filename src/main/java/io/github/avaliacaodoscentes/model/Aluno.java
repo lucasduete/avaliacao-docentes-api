@@ -8,16 +8,18 @@ public class Aluno {
     private String Senha;
     private String matricula;
     private String emailAdministrador;
+    private int codCurso;
 
     public Aluno() {
 
     }
 
-    public Aluno(String nome, String senha, String matricula, String emailAdministrador) {
+    public Aluno(String nome, String senha, String matricula, String emailAdministrador, int codCurso) {
         this.nome = nome;
         Senha = senha;
         this.matricula = matricula;
         this.emailAdministrador = emailAdministrador;
+        this.codCurso = codCurso;
     }
 
     public String getNome() {
@@ -52,12 +54,21 @@ public class Aluno {
         this.emailAdministrador = emailAdministrador;
     }
 
+    public int getCodCurso() {
+        return codCurso;
+    }
+
+    public void setCodCurso(int codCurso) {
+        this.codCurso = codCurso;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Aluno aluno = (Aluno) o;
-        return Objects.equals(nome, aluno.nome) &&
+        return codCurso == aluno.codCurso &&
+                Objects.equals(nome, aluno.nome) &&
                 Objects.equals(Senha, aluno.Senha) &&
                 Objects.equals(matricula, aluno.matricula) &&
                 Objects.equals(emailAdministrador, aluno.emailAdministrador);
@@ -66,7 +77,7 @@ public class Aluno {
     @Override
     public int hashCode() {
 
-        return Objects.hash(nome, Senha, matricula, emailAdministrador);
+        return Objects.hash(nome, Senha, matricula, emailAdministrador, codCurso);
     }
 
     @Override
@@ -76,6 +87,7 @@ public class Aluno {
                 ", Senha='" + Senha + '\'' +
                 ", matricula='" + matricula + '\'' +
                 ", emailAdministrador='" + emailAdministrador + '\'' +
+                ", codCurso=" + codCurso +
                 '}';
     }
 }
