@@ -6,20 +6,21 @@
 
         <script type="text/javascript">
             function url() {
-                var email = document.getElementById("matricula");
+                var email = document.getElementById("email");
                 var senha = document.getElementById("senha");
-                var tipo = document.getElementById("tipo");
+                var nome = document.getElementById("nome");
                 var form = document.getElementById("formulario");
 
-                if (tipo.value == "admin") {
-                    form.setAttribute("action",
-                        "http://localhost:8080/rest/login/loginAdmin/" + email.value + "/" + senha.value);
-                } else if (tipo.value == "aluno") {
-                    form.setAttribute("action",
-                        "http://localhost:8080/rest/login/loginAluno/" + email.value + "/" + senha.value);
-                } else {
-                    alert("Tipo de Conta Invalido");
+                var admin = {
+                    "email" : email.value,
+                    "senha": senha.value,
+                    "nome": nome.value
                 }
+
+
+
+                form.setAttribute("action",
+                    "http://localhost:8080/rest/admin/cadastrarAdmin/" + email.value + "/" + senha.value);
 
             }
 
