@@ -1,14 +1,14 @@
-package io.github.avaliacaodoscentes.model;
+package io.github.avaliacaodocentes.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class AlunoDAO {
+public class AdministradorDAO {
 
     private Connection conn;
 
-    public AlunoDAO() {
+    public AdministradorDAO() {
         try {
             conn = Conexao.getConnection();
         } catch (SQLException | ClassNotFoundException e) {
@@ -17,19 +17,17 @@ public class AlunoDAO {
     }
 
 
-    public boolean cadastrarAluno(Aluno aluno) {
+    public boolean cadastrarAdmin(Administrador admin) {
 
-        String sql = "INSERT INTO Aluno(Nome, Senha, Matricula, emailAdministrador, codCurso) VALUES (?,?,?,?,?);";
+        String sql = "INSERT INTO Administrador(Email, Nome, Senha) VALUES (?,?,?);";
 
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(sql);
 
-            stmt.setString(1, aluno.getNome());
-            stmt.setString(2, aluno.getSenha());
-            stmt.setString(3, aluno.getMatricula());
-            stmt.setString(4, aluno.getEmailAdministrador());
-            stmt.setInt(5, aluno.getCodCurso());
+            stmt.setString(1, admin.getEmail());
+            stmt.setString(2, admin.getNome());
+            stmt.setString(3, admin.getSenha());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -40,15 +38,15 @@ public class AlunoDAO {
         return true;
     }
 
-    public boolean loginAluno(String matricula, String senha) {
+    public boolean loginAdmin(String email, String senha) {
 
-        String sql = "SELECT * FROM Aluno WHERE Matricula = ? AND Senha = ?";
+        String sql = "SELECT * FROM Adminsitrador WHERE Email = ? AND Senha = ?";
 
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(sql);
 
-            stmt.setString(1, matricula);
+            stmt.setString(1, email);
             stmt.setString(2, senha);
 
             return stmt.executeQuery().next();

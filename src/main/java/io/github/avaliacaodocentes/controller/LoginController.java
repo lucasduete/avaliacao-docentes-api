@@ -1,7 +1,7 @@
-package io.github.avaliacaodoscentes.controller;
+package io.github.avaliacaodocentes.controller;
 
-import io.github.avaliacaodoscentes.model.AdministradorDAO;
-import io.github.avaliacaodoscentes.model.AlunoDAO;
+import io.github.avaliacaodocentes.model.AdministradorDAO;
+import io.github.avaliacaodocentes.model.AlunoDAO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;

@@ -1,4 +1,4 @@
-package io.github.avaliacaodoscentes.infraSecurity;
+package io.github.avaliacaodocentes.infraSecurity;
 
 import java.io.IOException;
 
