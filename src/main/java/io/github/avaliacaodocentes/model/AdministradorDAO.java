@@ -40,7 +40,7 @@ public class AdministradorDAO {
 
     public boolean loginAdmin(String email, String senha) {
 
-        String sql = "SELECT * FROM Adminsitrador WHERE Email = ? AND Senha = ?";
+        String sql = "SELECT * FROM Administrador WHERE Email = ? AND Senha = ?";
 
         PreparedStatement stmt = null;
         try {
