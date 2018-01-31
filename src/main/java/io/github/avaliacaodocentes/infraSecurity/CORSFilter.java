@@ -7,6 +7,8 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.MultivaluedMap;
 
+
+//Esta classe implementa o filtro CORS para possibilitar o acesso da API pela aplicaçao
 public class CORSFilter implements ContainerResponseFilter {
 
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
