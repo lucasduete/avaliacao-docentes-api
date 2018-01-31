@@ -7,9 +7,6 @@
     <groupId>io.github</groupId>
     <artifactId>avaliacaodocentes</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <package>war</package>
-
-    <version>1.0</version>
     <packaging>war</packaging>
 
     <name>avaliacao-doscentes</name>
