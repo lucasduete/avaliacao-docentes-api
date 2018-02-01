@@ -42,11 +42,41 @@ public class AdministradorDAO {
         return true;
     }
 
-    public Administrador loginAdmin(String email, String senha) throws CredenciaisInvalidasException, SQLException {
+    public Administrador buscar(String email) {
 
         Administrador admin = null;
 
         String sql = "SELECT * FROM Administrador WHERE Email ILIKE ?";
+        PreparedStatement stmt = null;
+
+        try {
+            conn.prepareStatement(sql);
+            stmt.setString(1, email);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next())
+                admin = new Administrador(
+                        rs.getString("Email"),
+                        rs.getString("Nome"),
+                        rs.getString("Senha")
+                );
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        }
+
+        return admin;
+    }
+
+    public Administrador loginAdmin(String email, String senha) throws CredenciaisInvalidasException, SQLException {
+
+        Administrador admin = null;
+
+        String sql = "SELECT Senha FROM Administrador WHERE Email ILIKE ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
 
         stmt.setString(1, email);

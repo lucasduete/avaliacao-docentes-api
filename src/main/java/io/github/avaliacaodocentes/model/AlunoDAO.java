@@ -46,6 +46,38 @@ public class AlunoDAO {
         return true;
     }
 
+    public Aluno buscar(String matricula) {
+
+        Aluno aluno = null;
+
+        String sql = "SELECT * FROM Aluno WHERE Matricula ILIKE ?";
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, matricula);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next())
+                aluno = new Aluno(
+                        rs.getString("Nome"),
+                        rs.getString("Senha"),
+                        rs.getString("Matricula"),
+                        rs.getString("EmailAdministrador"),
+                        rs.getInt("CodCurso")
+                );
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        }
+
+        return aluno;
+    }
+
     public Aluno loginAluno(String matricula, String senha) throws CredenciaisInvalidasException, SQLException {
 
         Aluno aluno = null;
