@@ -55,7 +55,7 @@ public class AdministradorDAO {
         PreparedStatement stmt = null;
 
         try {
-            conn.prepareStatement(sql);
+            stmt = conn.prepareStatement(sql);
             stmt.setString(1, email);
 
             ResultSet rs = stmt.executeQuery();
