@@ -1,7 +1,11 @@
 package io.github.avaliacaodocentes.model;
 
+import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
+import io.github.avaliacaodocentes.resources.Encryption;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AlunoDAO {
@@ -16,7 +20,6 @@ public class AlunoDAO {
         }
     }
 
-
     public boolean cadastrarAluno(Aluno aluno) {
 
         String sql = "INSERT INTO Aluno(Nome, Senha, Matricula, emailAdministrador, codCurso) VALUES (?,?,?,?,?);";
@@ -26,12 +29,18 @@ public class AlunoDAO {
             stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, aluno.getNome());
-            stmt.setString(2, aluno.getSenha());
+
+            //Encripta a senha antes de salvar
+            stmt.setString(2, Encryption.encrypt(aluno.getSenha()));
+
             stmt.setString(3, aluno.getMatricula());
             stmt.setString(4, aluno.getEmailAdministrador());
             stmt.setInt(5, aluno.getCodCurso());
 
             stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -40,22 +49,61 @@ public class AlunoDAO {
         return true;
     }
 
-    public boolean loginAluno(String matricula, String senha) {
+    public Aluno buscar(String matricula) {
 
-        String sql = "SELECT * FROM Aluno WHERE Matricula = ? AND Senha = ?";
+        Aluno aluno = null;
 
+        String sql = "SELECT * FROM Aluno WHERE Matricula ILIKE ?";
         PreparedStatement stmt = null;
+
         try {
             stmt = conn.prepareStatement(sql);
-
             stmt.setString(1, matricula);
-            stmt.setString(2, senha);
 
-            return stmt.executeQuery().next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next())
+                aluno = new Aluno(
+                        rs.getString("Nome"),
+                        rs.getString("Senha"),
+                        rs.getString("Matricula"),
+                        rs.getString("EmailAdministrador"),
+                        rs.getInt("CodCurso")
+                );
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
         }
 
+        return aluno;
+    }
+
+    public Aluno loginAluno(String matricula, String senha) throws CredenciaisInvalidasException, SQLException {
+
+        Aluno aluno = null;
+
+        String sql = "SELECT Senha FROM Aluno WHERE Matricula ILIKE ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+
+        stmt.setString(1, matricula);
+
+        ResultSet rs = stmt.executeQuery();
+
+        if(!rs.next())
+            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Aluno sao Invalidas");
+
+        if(Encryption.checkPassword(senha, rs.getString("Senha")))
+            aluno = buscar(matricula);
+        else
+            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Aluno sao Invalidas");
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return aluno;
     }
 }

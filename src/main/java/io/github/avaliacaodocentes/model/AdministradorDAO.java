@@ -1,7 +1,11 @@
 package io.github.avaliacaodocentes.model;
 
+import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
+import io.github.avaliacaodocentes.resources.Encryption;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AdministradorDAO {
@@ -27,9 +31,14 @@ public class AdministradorDAO {
 
             stmt.setString(1, admin.getEmail());
             stmt.setString(2, admin.getNome());
-            stmt.setString(3, admin.getSenha());
+
+            //Encripta a senha antes de salvar
+            stmt.setString(3, Encryption.encrypt(admin.getSenha()));
 
             stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -38,22 +47,59 @@ public class AdministradorDAO {
         return true;
     }
 
-    public boolean loginAdmin(String email, String senha) {
+    public Administrador buscar(String email) {
 
-        String sql = "SELECT * FROM Administrador WHERE Email = ? AND Senha = ?";
+        Administrador admin = null;
 
+        String sql = "SELECT * FROM Administrador WHERE Email ILIKE ?";
         PreparedStatement stmt = null;
+
         try {
-            stmt = conn.prepareStatement(sql);
-
+            conn.prepareStatement(sql);
             stmt.setString(1, email);
-            stmt.setString(2, senha);
 
-            return stmt.executeQuery().next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next())
+                admin = new Administrador(
+                        rs.getString("Email"),
+                        rs.getString("Nome"),
+                        rs.getString("Senha")
+                );
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
         }
 
+        return admin;
+    }
+
+    public Administrador loginAdmin(String email, String senha) throws CredenciaisInvalidasException, SQLException {
+
+        Administrador admin = null;
+
+        String sql = "SELECT Senha FROM Administrador WHERE Email ILIKE ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+
+        stmt.setString(1, email);
+
+        ResultSet rs = stmt.executeQuery();
+
+        if(!rs.next())
+            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Administrador sao Invalidas");
+
+        if(Encryption.checkPassword(senha, rs.getString("Senha")))
+            admin = buscar(email);
+        else
+            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Administrador sao Invalidas");
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return admin;
     }
 }
