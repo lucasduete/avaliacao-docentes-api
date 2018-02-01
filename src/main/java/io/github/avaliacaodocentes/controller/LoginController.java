@@ -6,7 +6,6 @@ import io.github.avaliacaodocentes.model.AdministradorDAO;
 import io.github.avaliacaodocentes.model.Aluno;
 import io.github.avaliacaodocentes.model.AlunoDAO;
 
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
