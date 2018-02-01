@@ -38,6 +38,9 @@ public class AlunoDAO {
             stmt.setInt(5, aluno.getCodCurso());
 
             stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

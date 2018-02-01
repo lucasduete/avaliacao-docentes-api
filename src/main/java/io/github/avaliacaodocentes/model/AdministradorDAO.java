@@ -31,9 +31,14 @@ public class AdministradorDAO {
 
             stmt.setString(1, admin.getEmail());
             stmt.setString(2, admin.getNome());
-            stmt.setString(3, admin.getSenha());
+
+            //Encripta a senha antes de salvar
+            stmt.setString(3, Encryption.encrypt(admin.getSenha()));
 
             stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
