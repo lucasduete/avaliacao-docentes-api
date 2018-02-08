@@ -82,10 +82,4 @@ public class FilterSecurityAuthentication implements ContainerRequestFilter {
         });
     }
 
-    public static String getToken(ContainerRequestContext requestContext) {
-        return requestContext
-                .getSecurityContext()
-                .getUserPrincipal()
-                .getName();
-    }
 }
