@@ -41,6 +41,8 @@ public class LoginController {
             if (admin == null)
                 return Response.status(Response.Status.NO_CONTENT).build();
 
+            String token = gerarToken(email, 1);
+            admin.setSenha(token);
 
             return Response.ok(admin).build();
         } catch (CredenciaisInvalidasException ciEx) {
@@ -66,6 +68,8 @@ public class LoginController {
             if (aluno == null)
                 return Response.status(Response.Status.NO_CONTENT).build();
 
+            String token = gerarToken(matricula, 1);
+            aluno.setSenha(token);
 
             return Response.ok(aluno).build();
         } catch (CredenciaisInvalidasException ciEx) {
