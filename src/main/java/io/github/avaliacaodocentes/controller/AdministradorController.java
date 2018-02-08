@@ -1,10 +1,10 @@
 package io.github.avaliacaodocentes.controller;
 
-import io.github.avaliacaodocentes.dao.AlunoDAO;
+import io.github.avaliacaodocentes.dao.AlunoDao;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
 import io.github.avaliacaodocentes.model.Administrador;
-import io.github.avaliacaodocentes.dao.AdministradorDAO;
+import io.github.avaliacaodocentes.dao.AdministradorDao;
 import io.github.avaliacaodocentes.model.Aluno;
 
 import javax.ws.rs.Consumes;
@@ -22,7 +22,7 @@ public class AdministradorController {
     @Path("cadastrarAdmin/")
     public Response cadastrarAdmin(Administrador admin) {
 
-        AdministradorDAO adminDao = new AdministradorDAO();
+        AdministradorDao adminDao = new AdministradorDao();
 
         if (adminDao.cadastrarAdmin(admin))
             return Response.ok().build();
@@ -37,7 +37,7 @@ public class AdministradorController {
     @Path("cadastrarAluno/")
     public Response cadastrarAdmin(Aluno aluno) {
 
-        AlunoDAO alunoDao = new AlunoDAO();
+        AlunoDao alunoDao = new AlunoDao();
 
         if (alunoDao.cadastrarAluno(aluno))
             return Response.ok().build();
