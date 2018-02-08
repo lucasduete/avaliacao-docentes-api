@@ -1,7 +1,7 @@
 package io.github.avaliacaodocentes.dao;
 
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
-import io.github.avaliacaodocentes.model.Administrador;
+import io.github.avaliacaodocentes.model.Aluno;
 import io.github.avaliacaodocentes.factory.Conexao;
 import io.github.avaliacaodocentes.resources.Encryption;
 
@@ -10,11 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AdministradorDAO {
+public class AlunoDao {
 
     private Connection conn;
 
-    public AdministradorDAO() {
+    public AlunoDao() {
         try {
             conn = Conexao.getConnection();
         } catch (SQLException | ClassNotFoundException e) {
@@ -22,20 +22,22 @@ public class AdministradorDAO {
         }
     }
 
+    public boolean cadastrarAluno(Aluno aluno) {
 
-    public boolean cadastrarAdmin(Administrador admin) {
-
-        String sql = "INSERT INTO Administrador(Email, Nome, Senha) VALUES (?,?,?);";
+        String sql = "INSERT INTO Aluno(Nome, Senha, Matricula, emailAdministrador, codCurso) VALUES (?,?,?,?,?);";
 
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(sql);
 
-            stmt.setString(1, admin.getEmail());
-            stmt.setString(2, admin.getNome());
+            stmt.setString(1, aluno.getNome());
 
             //Encripta a senha antes de salvar
-            stmt.setString(3, Encryption.encrypt(admin.getSenha()));
+            stmt.setString(2, Encryption.encrypt(aluno.getSenha()));
+
+            stmt.setString(3, aluno.getMatricula());
+            stmt.setString(4, aluno.getEmailAdministrador());
+            stmt.setInt(5, aluno.getCodCurso());
 
             stmt.executeUpdate();
 
@@ -49,24 +51,26 @@ public class AdministradorDAO {
         return true;
     }
 
-    public Administrador buscar(String email) {
+    public Aluno buscar(String matricula) {
 
-        Administrador admin = null;
+        Aluno aluno = null;
 
-        String sql = "SELECT * FROM Administrador WHERE Email ILIKE ?";
+        String sql = "SELECT * FROM Aluno WHERE Matricula ILIKE ?";
         PreparedStatement stmt = null;
 
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, email);
+            stmt.setString(1, matricula);
 
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next())
-                admin = new Administrador(
-                        rs.getString("Email"),
+                aluno = new Aluno(
                         rs.getString("Nome"),
-                        rs.getString("Senha")
+                        rs.getString("Senha"),
+                        rs.getString("Matricula"),
+                        rs.getString("EmailAdministrador"),
+                        rs.getInt("CodCurso")
                 );
 
             rs.close();
@@ -76,32 +80,32 @@ public class AdministradorDAO {
             sqlEx.printStackTrace();
         }
 
-        return admin;
+        return aluno;
     }
 
-    public Administrador loginAdmin(String email, String senha) throws CredenciaisInvalidasException, SQLException {
+    public Aluno loginAluno(String matricula, String senha) throws CredenciaisInvalidasException, SQLException {
 
-        Administrador admin = null;
+        Aluno aluno = null;
 
-        String sql = "SELECT Senha FROM Administrador WHERE Email ILIKE ?";
+        String sql = "SELECT Senha FROM Aluno WHERE Matricula ILIKE ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
 
-        stmt.setString(1, email);
+        stmt.setString(1, matricula);
 
         ResultSet rs = stmt.executeQuery();
 
         if(!rs.next())
-            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Administrador sao Invalidas");
+            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Aluno sao Invalidas");
 
         if(Encryption.checkPassword(senha, rs.getString("Senha")))
-            admin = buscar(email);
+            aluno = buscar(matricula);
         else
-            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Administrador sao Invalidas");
+            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Aluno sao Invalidas");
 
         rs.close();
         stmt.close();
         conn.close();
 
-        return admin;
+        return aluno;
     }
 }

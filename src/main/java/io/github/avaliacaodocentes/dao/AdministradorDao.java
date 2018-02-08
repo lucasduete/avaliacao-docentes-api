@@ -1,7 +1,7 @@
 package io.github.avaliacaodocentes.dao;
 
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
-import io.github.avaliacaodocentes.model.Aluno;
+import io.github.avaliacaodocentes.model.Administrador;
 import io.github.avaliacaodocentes.factory.Conexao;
 import io.github.avaliacaodocentes.resources.Encryption;
 
@@ -10,11 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AlunoDAO {
+public class AdministradorDao {
 
     private Connection conn;
 
-    public AlunoDAO() {
+    public AdministradorDao() {
         try {
             conn = Conexao.getConnection();
         } catch (SQLException | ClassNotFoundException e) {
@@ -22,22 +22,20 @@ public class AlunoDAO {
         }
     }
 
-    public boolean cadastrarAluno(Aluno aluno) {
 
-        String sql = "INSERT INTO Aluno(Nome, Senha, Matricula, emailAdministrador, codCurso) VALUES (?,?,?,?,?);";
+    public boolean cadastrarAdmin(Administrador admin) {
+
+        String sql = "INSERT INTO Administrador(Email, Nome, Senha) VALUES (?,?,?);";
 
         PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(sql);
 
-            stmt.setString(1, aluno.getNome());
+            stmt.setString(1, admin.getEmail());
+            stmt.setString(2, admin.getNome());
 
             //Encripta a senha antes de salvar
-            stmt.setString(2, Encryption.encrypt(aluno.getSenha()));
-
-            stmt.setString(3, aluno.getMatricula());
-            stmt.setString(4, aluno.getEmailAdministrador());
-            stmt.setInt(5, aluno.getCodCurso());
+            stmt.setString(3, Encryption.encrypt(admin.getSenha()));
 
             stmt.executeUpdate();
 
@@ -51,26 +49,24 @@ public class AlunoDAO {
         return true;
     }
 
-    public Aluno buscar(String matricula) {
+    public Administrador buscar(String email) {
 
-        Aluno aluno = null;
+        Administrador admin = null;
 
-        String sql = "SELECT * FROM Aluno WHERE Matricula ILIKE ?";
+        String sql = "SELECT * FROM Administrador WHERE Email ILIKE ?";
         PreparedStatement stmt = null;
 
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, matricula);
+            stmt.setString(1, email);
 
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next())
-                aluno = new Aluno(
+                admin = new Administrador(
+                        rs.getString("Email"),
                         rs.getString("Nome"),
-                        rs.getString("Senha"),
-                        rs.getString("Matricula"),
-                        rs.getString("EmailAdministrador"),
-                        rs.getInt("CodCurso")
+                        rs.getString("Senha")
                 );
 
             rs.close();
@@ -80,32 +76,32 @@ public class AlunoDAO {
             sqlEx.printStackTrace();
         }
 
-        return aluno;
+        return admin;
     }
 
-    public Aluno loginAluno(String matricula, String senha) throws CredenciaisInvalidasException, SQLException {
+    public Administrador loginAdmin(String email, String senha) throws CredenciaisInvalidasException, SQLException {
 
-        Aluno aluno = null;
+        Administrador admin = null;
 
-        String sql = "SELECT Senha FROM Aluno WHERE Matricula ILIKE ?";
+        String sql = "SELECT Senha FROM Administrador WHERE Email ILIKE ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
 
-        stmt.setString(1, matricula);
+        stmt.setString(1, email);
 
         ResultSet rs = stmt.executeQuery();
 
         if(!rs.next())
-            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Aluno sao Invalidas");
+            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Administrador sao Invalidas");
 
         if(Encryption.checkPassword(senha, rs.getString("Senha")))
-            aluno = buscar(matricula);
+            admin = buscar(email);
         else
-            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Aluno sao Invalidas");
+            throw new CredenciaisInvalidasException("As Credenciais usadas no Login de Administrador sao Invalidas");
 
         rs.close();
         stmt.close();
         conn.close();
 
-        return aluno;
+        return admin;
     }
 }
