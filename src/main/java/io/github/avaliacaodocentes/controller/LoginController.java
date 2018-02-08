@@ -1,6 +1,7 @@
 package io.github.avaliacaodocentes.controller;
 
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
+import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
 import io.github.avaliacaodocentes.model.Administrador;
 import io.github.avaliacaodocentes.dao.AdministradorDAO;
 import io.github.avaliacaodocentes.model.Aluno;
@@ -106,6 +107,15 @@ public class LoginController {
         } catch(Exception ex){
             throw ex;
         }
+    }
+
+    public NivelAcesso buscarNivelPermissao(String login) {
+
+        if (login.contains("@"))
+            return NivelAcesso.NIVEL_1;
+        else
+            return NivelAcesso.NIVEL_2;
+
     }
 
 }

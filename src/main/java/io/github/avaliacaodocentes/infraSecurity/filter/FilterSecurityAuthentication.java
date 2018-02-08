@@ -1,4 +1,4 @@
-package io.github.avaliacaodocentes.infraSecurity;
+package io.github.avaliacaodocentes.infraSecurity.filter;
 
 import javax.annotation.Priority;
 import javax.ws.rs.NotAuthorizedException;
@@ -11,6 +11,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
 import io.github.avaliacaodocentes.controller.LoginController;
+import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.jsonwebtoken.Claims;
 
 import java.io.IOException;
