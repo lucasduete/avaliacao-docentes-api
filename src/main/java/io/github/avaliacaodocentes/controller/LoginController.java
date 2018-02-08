@@ -2,9 +2,9 @@ package io.github.avaliacaodocentes.controller;
 
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
 import io.github.avaliacaodocentes.model.Administrador;
-import io.github.avaliacaodocentes.model.AdministradorDAO;
+import io.github.avaliacaodocentes.dao.AdministradorDAO;
 import io.github.avaliacaodocentes.model.Aluno;
-import io.github.avaliacaodocentes.model.AlunoDAO;
+import io.github.avaliacaodocentes.dao.AlunoDAO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -1,7 +1,7 @@
 package io.github.avaliacaodocentes.controller;
 
 import io.github.avaliacaodocentes.model.Aluno;
-import io.github.avaliacaodocentes.model.AlunoDAO;
+import io.github.avaliacaodocentes.dao.AlunoDAO;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

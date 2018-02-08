@@ -1,4 +1,4 @@
-package io.github.avaliacaodocentes.model;
+package io.github.avaliacaodocentes.factory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

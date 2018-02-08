@@ -1,7 +1,7 @@
 package io.github.avaliacaodocentes.controller;
 
 import io.github.avaliacaodocentes.model.Administrador;
-import io.github.avaliacaodocentes.model.AdministradorDAO;
+import io.github.avaliacaodocentes.dao.AdministradorDAO;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

@@ -1,6 +1,8 @@
-package io.github.avaliacaodocentes.model;
+package io.github.avaliacaodocentes.dao;
 
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
+import io.github.avaliacaodocentes.model.Administrador;
+import io.github.avaliacaodocentes.factory.Conexao;
 import io.github.avaliacaodocentes.resources.Encryption;
 
 import java.sql.Connection;
