@@ -16,13 +16,11 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.DatatypeConverter;
 import java.sql.SQLException;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Logger;
 
 @Path("login")
 public class LoginController {
@@ -30,9 +28,11 @@ public class LoginController {
     private final static String SECRET_KEYTOKEN = "S3c3t-k1Y-t0%{T0K2n{4P1(GPS)}%";
 
     @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("loginAdmin/{email}/{senha}")
-    public Response loginAdmin(@PathParam("email") String email, @PathParam("senha") String senha) {
+    @Path("loginAdmin/")
+    public Response loginAdmin(@FormParam("email") String email,
+                               @FormParam("senha") String senha) {
 
         try {
             AdministradorDAO adminDao = new AdministradorDAO();
@@ -53,9 +53,11 @@ public class LoginController {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("loginAluno/{matricula}/{senha}")
-    public Response loginAluno(@PathParam("matricula") String matricula, @PathParam("senha") String senha) {
+    @Path("loginAluno/")
+    public Response loginAluno(@FormParam("matricula") String matricula,
+                               @FormParam("senha") String senha) {
 
         try {
             AlunoDAO alunoDao = new AlunoDAO();
