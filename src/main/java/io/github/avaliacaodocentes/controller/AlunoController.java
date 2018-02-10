@@ -33,7 +33,7 @@ public class AlunoController {
 
         AlunoDao alunoDao = new AlunoDao();
 
-        if(alunoDao.cadastrarAluno(aluno))
+        if(alunoDao.editar(aluno))
             return Response.ok().build();
         else
             return Response.status(Response.Status.BAD_REQUEST).build();

@@ -16,7 +16,7 @@ public class Aluno {
 
     public Aluno(String nome, String senha, String matricula, String emailAdministrador, int codCurso) {
         this.nome = nome;
-        senha = senha;
+        this.senha = senha;
         this.matricula = matricula;
         this.emailAdministrador = emailAdministrador;
         this.codCurso = codCurso;

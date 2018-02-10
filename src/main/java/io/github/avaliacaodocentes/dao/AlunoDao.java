@@ -83,6 +83,31 @@ public class AlunoDao {
         return aluno;
     }
 
+    public boolean editar(Aluno aluno) {
+
+        String sql = "UPDATE Aluno SET nome = ?, senha = ?, matricula = ?, emailAdministrador = ?, codCurso = ?";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, aluno.getNome());
+            stmt.setString(2, Encryption.encrypt(aluno.getSenha()));
+            stmt.setString(3, aluno.getMatricula());
+            stmt.setString(4, aluno.getEmailAdministrador());
+            stmt.setInt(5, aluno.getCodCurso());
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
     public Aluno loginAluno(String matricula, String senha) throws CredenciaisInvalidasException, SQLException {
 
         Aluno aluno = null;
