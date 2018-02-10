@@ -10,8 +10,11 @@ import io.github.avaliacaodocentes.model.Aluno;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 @Path("admin")
 public class AdministradorController {
@@ -40,6 +43,26 @@ public class AdministradorController {
         AlunoDao alunoDao = new AlunoDao();
 
         if (alunoDao.cadastrarAluno(aluno))
+            return Response.ok().build();
+        else
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+    }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("editarAdmin/{emailAdmin}")
+    public Response editarAdmin(Administrador administrador,
+                                @PathParam("emailAdmin") String emailAdmin,
+                                @Context SecurityContext securityContext) {
+
+        if (administrador.isEmpty())
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        AdministradorDao administradorDao = new AdministradorDao();
+
+        if (administradorDao.editar(administrador))
             return Response.ok().build();
         else
             return Response.status(Response.Status.BAD_REQUEST).build();

@@ -66,4 +66,15 @@ public class Administrador {
                 ", senha='" + senha + '\'' +
                 '}';
     }
+
+    public boolean isEmpty() {
+
+        if ((email.isEmpty() || email == null)
+                || (nome.isEmpty() || nome == null)
+                || (senha.isEmpty() || senha == null))
+
+            return true;
+        else
+            return false;
+    }
 }

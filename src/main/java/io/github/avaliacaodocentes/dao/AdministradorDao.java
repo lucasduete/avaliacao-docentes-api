@@ -22,7 +22,6 @@ public class AdministradorDao {
         }
     }
 
-
     public boolean cadastrarAdmin(Administrador admin) {
 
         String sql = "INSERT INTO Administrador(Email, Nome, Senha) VALUES (?,?,?);";
@@ -77,6 +76,29 @@ public class AdministradorDao {
         }
 
         return admin;
+    }
+
+    public boolean editar(Administrador administrador) {
+
+        String sql = "UPDATE Administrador SET Email = ?, Nome = ?, Senha = ?";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, administrador.getEmail());
+            stmt.setString(2, administrador.getNome());;
+            stmt.setString(3, Encryption.encrypt(administrador.getSenha()));
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     public Administrador loginAdmin(String email, String senha) throws CredenciaisInvalidasException, SQLException {
