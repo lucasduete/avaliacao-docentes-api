@@ -68,4 +68,22 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
     }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("editarAluno/")
+    public Response editarAluno(Aluno aluno) {
+
+        if (aluno.isEmpty())
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        AlunoDao alunoDao = new AlunoDao();
+
+        if (alunoDao.editar(aluno))
+            return Response.ok().build();
+        else
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+    }
 }
