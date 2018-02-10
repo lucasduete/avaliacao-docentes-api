@@ -78,4 +78,16 @@ public class Professor {
                 ", nota=" + nota +
                 '}';
     }
+
+    public boolean isEmpty() {
+
+        if (    (nome.isEmpty() || nome == null)
+                || (senha.isEmpty() || senha == null)
+                || (matricula.isEmpty() || matricula==null)
+                )
+
+            return true;
+        else
+            return false;
+    }
 }

@@ -2,12 +2,14 @@ package io.github.avaliacaodocentes.controller;
 
 import io.github.avaliacaodocentes.dao.AlunoDao;
 import io.github.avaliacaodocentes.dao.CursoDao;
+import io.github.avaliacaodocentes.dao.ProfessorDao;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
 import io.github.avaliacaodocentes.model.Administrador;
 import io.github.avaliacaodocentes.dao.AdministradorDao;
 import io.github.avaliacaodocentes.model.Aluno;
 import io.github.avaliacaodocentes.model.Curso;
+import io.github.avaliacaodocentes.model.Professor;
 
 import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
@@ -107,4 +109,22 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         
     }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @POST
+    @Consumes
+    @Path("cadastrarProfessor/")
+    public Response cadastrarProfessor(Professor professor) {
+
+        if (professor.isEmpty() || professor.getNota() < 0 || professor.getNota() > 10)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        ProfessorDao professorDao = new ProfessorDao();
+
+        if (professorDao.cadastrar(professor))
+            return Response.ok().build();
+        else
+            return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
 }
