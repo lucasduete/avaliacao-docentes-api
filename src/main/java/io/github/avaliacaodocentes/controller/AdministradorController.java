@@ -1,12 +1,15 @@
 package io.github.avaliacaodocentes.controller;
 
 import io.github.avaliacaodocentes.dao.AlunoDao;
+import io.github.avaliacaodocentes.dao.CursoDao;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
 import io.github.avaliacaodocentes.model.Administrador;
 import io.github.avaliacaodocentes.dao.AdministradorDao;
 import io.github.avaliacaodocentes.model.Aluno;
+import io.github.avaliacaodocentes.model.Curso;
 
+import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -85,5 +88,23 @@ public class AdministradorController {
         else
             return Response.status(Response.Status.BAD_REQUEST).build();
 
+    }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("cadastrarCurso/")
+    public Response cadastrarCurso(Curso curso) {
+
+        if (curso.isEmpty() || curso.getCodigo()<= 0)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        CursoDao cursoDao = new CursoDao();
+
+        if (cursoDao.cadastrar(curso))
+            return Response.ok().build();
+        else
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        
     }
 }

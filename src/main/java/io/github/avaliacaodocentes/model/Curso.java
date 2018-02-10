@@ -66,4 +66,16 @@ public class Curso {
                 ", emailAdministrador='" + emailAdministrador + '\'' +
                 '}';
     }
+
+    public boolean isEmpty() {
+
+        if (    (nome.isEmpty() || nome == null) ||
+                (emailAdministrador.isEmpty() || emailAdministrador == null)
+                )
+
+            return true;
+        else
+            return false;
+
+    }
 }
