@@ -126,6 +126,7 @@ public class AdministradorController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("editarCurso/{codigo}")
     public Response editarCurso(Curso curso,
+                                @PathParam("codigo") int codCurso,
                                 @Context SecurityContext securityContext) {
 
         if (curso.isEmpty() || curso.getCodigo()<= 0)
@@ -138,7 +139,7 @@ public class AdministradorController {
         try {
             CursoDao cursoDao = new CursoDao();
 
-            if (cursoDao.editar(curso))
+            if (cursoDao.editar(curso, codCurso))
                 return Response.ok().build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
