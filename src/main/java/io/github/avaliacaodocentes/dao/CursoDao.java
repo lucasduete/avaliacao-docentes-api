@@ -65,4 +65,25 @@ public class CursoDao {
 
         return true;
     }
+
+    public boolean remover(int codigo) {
+
+        String sql = "DELETE FROM Curso WHERE Codigo = ?";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, codigo);
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 }

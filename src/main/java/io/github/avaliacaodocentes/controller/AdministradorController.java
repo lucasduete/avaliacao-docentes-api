@@ -13,10 +13,7 @@ import io.github.avaliacaodocentes.model.Curso;
 import io.github.avaliacaodocentes.model.Professor;
 
 import javax.print.attribute.standard.Media;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -144,6 +141,31 @@ public class AdministradorController {
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
         } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("removerCurso/{codigo}")
+    public Response removerCurso(@PathParam("codigo") int codCurso,
+                                 @Context SecurityContext securityContext) {
+
+        if (codCurso <= 0)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        try {
+            CursoDao cursoDao = new CursoDao();
+
+            if (cursoDao.remover(codCurso))
+                return Response.ok().build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            
             ex.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
