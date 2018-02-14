@@ -104,6 +104,30 @@ public class AlunoDao {
         return true;
     }
 
+    public boolean remover(String matricula) {
+
+        String sql = "DELETE FROM Avaliacao_Aluno_Professor WHERE MatAluno ILIKE ?;" +
+                "DELETE FROM Aluno WHERE Matricula ILIKE ?;";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, matricula);
+            stmt.setString(2, matricula);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+        } catch (SQLException ex) {
+
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
     public Aluno loginAluno(String matricula, String senha) throws CredenciaisInvalidasException, SQLException {
 
         Aluno aluno = null;
