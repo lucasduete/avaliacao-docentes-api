@@ -12,6 +12,7 @@ import javax.ws.rs.ext.Provider;
 
 import io.github.avaliacaodocentes.controller.LoginController;
 import io.github.avaliacaodocentes.infraSecurity.Security;
+import io.github.avaliacaodocentes.infraSecurity.TokenManagement;
 import io.jsonwebtoken.Claims;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class FilterSecurityAuthentication implements ContainerRequestFilter {
 
         try {
 
-            Claims claims = new LoginController().validaToken(token);
+            Claims claims = new TokenManagement().validaToken(token);
 
             if(claims==null)
                 throw new Exception("Token inválido");

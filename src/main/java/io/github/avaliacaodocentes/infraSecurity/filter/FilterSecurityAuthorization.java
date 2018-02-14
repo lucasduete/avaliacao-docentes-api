@@ -1,6 +1,7 @@
 package io.github.avaliacaodocentes.infraSecurity.filter;
 
 import io.github.avaliacaodocentes.controller.LoginController;
+import io.github.avaliacaodocentes.infraSecurity.AcessControll;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
 import org.glassfish.jersey.internal.util.PropertyAlias;
@@ -82,7 +83,7 @@ public class FilterSecurityAuthorization implements ContainerRequestFilter {
 
             boolean temPermissao = false;
 
-            NivelAcesso nivelPermissaoUsuario = new LoginController().buscarNivelPermissao(login);
+            NivelAcesso nivelPermissaoUsuario = AcessControll.buscarNivelPermissao(login);
 
             for (NivelAcesso nivelPermissao : nivelPermissaoPermitidos) {
                 if(nivelPermissao.equals(nivelPermissaoUsuario)) {
