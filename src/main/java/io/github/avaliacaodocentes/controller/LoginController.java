@@ -1,6 +1,7 @@
 package io.github.avaliacaodocentes.controller;
 
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
+import io.github.avaliacaodocentes.infraSecurity.TokenManagement;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
 import io.github.avaliacaodocentes.model.Administrador;
 import io.github.avaliacaodocentes.dao.AdministradorDao;
@@ -25,8 +26,6 @@ import java.util.Date;
 @Path("login")
 public class LoginController {
 
-    private final static String SECRET_KEYTOKEN = "S3c3t-k1Y-t0%{T0K2n{4P1(GPS)}%";
-
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
@@ -41,7 +40,7 @@ public class LoginController {
             if (admin == null)
                 return Response.status(Response.Status.NO_CONTENT).build();
 
-            String token = gerarToken(email, 1);
+            String token = new TokenManagement().gerarToken(email, 1);
             admin.setSenha(token);
 
             return Response.ok(admin).build();
@@ -68,7 +67,7 @@ public class LoginController {
             if (aluno == null)
                 return Response.status(Response.Status.NO_CONTENT).build();
 
-            String token = gerarToken(matricula, 1);
+            String token = new TokenManagement().gerarToken(matricula, 1);
             aluno.setSenha(token);
 
             return Response.ok(aluno).build();
@@ -79,49 +78,6 @@ public class LoginController {
             sqlEx.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-    }
-
-    private String gerarToken(String login,Integer limiteDias ) {
-
-        SignatureAlgorithm algoritimoAssinatura = SignatureAlgorithm.HS512;
-
-        Date agora = new Date();
-
-        Calendar expira = Calendar.getInstance();
-        expira.add(Calendar.DAY_OF_MONTH, limiteDias);
-
-        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET_KEYTOKEN);
-        SecretKeySpec key = new SecretKeySpec(apiKeySecretBytes, algoritimoAssinatura.getJcaName());
-
-        JwtBuilder construtor = Jwts.builder()
-                .setIssuedAt(agora)
-                .setIssuer(login)
-                .signWith(algoritimoAssinatura, key)
-                .setExpiration(expira.getTime());
-
-        return construtor.compact();
-    }
-
-    public Claims validaToken(String token) {
-
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEYTOKEN))
-                    .parseClaimsJws(token).getBody();
-
-            return claims;
-        } catch(Exception ex){
-            throw ex;
-        }
-    }
-
-    public NivelAcesso buscarNivelPermissao(String login) {
-
-        if (login.contains("@"))
-            return NivelAcesso.NIVEL_1;
-        else
-            return NivelAcesso.NIVEL_2;
-
     }
 
 }

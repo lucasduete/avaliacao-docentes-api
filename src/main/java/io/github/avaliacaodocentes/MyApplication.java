@@ -3,7 +3,7 @@ package io.github.avaliacaodocentes;
 import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import io.github.avaliacaodocentes.infraSecurity.CORSFilter;
+import io.github.avaliacaodocentes.infraSecurity.filter.CORSFilter;
 
 @ApplicationPath("rest")
 public class MyApplication extends ResourceConfig {
