@@ -26,12 +26,12 @@ public class AdministradorController {
     @Security(NivelAcesso.NIVEL_1)
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("cadastrarAdmin/")
-    public Response cadastrarAdmin(Administrador admin) {
+    @Path("cadastrarAluno/")
+    public Response cadastrarAdmin(Aluno aluno) {
 
-        AdministradorDao adminDao = new AdministradorDao();
+        AlunoDao alunoDao = new AlunoDao();
 
-        if (adminDao.cadastrarAdmin(admin))
+        if (alunoDao.cadastrarAluno(aluno))
             return Response.ok().build();
         else
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -41,12 +41,12 @@ public class AdministradorController {
     @Security(NivelAcesso.NIVEL_1)
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("cadastrarAluno/")
-    public Response cadastrarAdmin(Aluno aluno) {
+    @Path("cadastrarAdmin/")
+    public Response cadastrarAdmin(Administrador admin) {
 
-        AlunoDao alunoDao = new AlunoDao();
+        AdministradorDao adminDao = new AdministradorDao();
 
-        if (alunoDao.cadastrarAluno(aluno))
+        if (adminDao.cadastrarAdmin(admin))
             return Response.ok().build();
         else
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -165,7 +165,7 @@ public class AdministradorController {
                 return Response.status(Response.Status.BAD_REQUEST).build();
 
         } catch (SQLException | ClassNotFoundException ex) {
-            
+
             ex.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
