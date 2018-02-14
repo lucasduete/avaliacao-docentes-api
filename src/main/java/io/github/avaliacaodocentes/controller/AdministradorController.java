@@ -4,6 +4,7 @@ import io.github.avaliacaodocentes.dao.AlunoDao;
 import io.github.avaliacaodocentes.dao.CursoDao;
 import io.github.avaliacaodocentes.dao.ProfessorDao;
 import io.github.avaliacaodocentes.infraSecurity.Security;
+import io.github.avaliacaodocentes.infraSecurity.TokenManagement;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
 import io.github.avaliacaodocentes.model.Administrador;
 import io.github.avaliacaodocentes.dao.AdministradorDao;
@@ -20,6 +21,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.sql.SQLException;
 
 @Path("admin")
 public class AdministradorController {
@@ -96,18 +98,54 @@ public class AdministradorController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("cadastrarCurso/")
-    public Response cadastrarCurso(Curso curso) {
+    public Response cadastrarCurso(Curso curso,
+                                   @Context SecurityContext securityContext) {
 
         if (curso.isEmpty() || curso.getCodigo()<= 0)
             return Response.status(Response.Status.BAD_REQUEST).build();
 
-        CursoDao cursoDao = new CursoDao();
+        curso.setEmailAdministrador(
+                TokenManagement.getToken(securityContext)
+        );
 
-        if (cursoDao.cadastrar(curso))
-            return Response.ok().build();
-        else
+        try {
+            CursoDao cursoDao = new CursoDao();
+
+            if (cursoDao.cadastrar(curso))
+                return Response.ok().build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("editarCurso/{codigo}")
+    public Response editarCurso(Curso curso,
+                                @Context SecurityContext securityContext) {
+
+        if (curso.isEmpty() || curso.getCodigo()<= 0)
             return Response.status(Response.Status.BAD_REQUEST).build();
-        
+
+        curso.setEmailAdministrador(
+                TokenManagement.getToken(securityContext)
+        );
+
+        try {
+            CursoDao cursoDao = new CursoDao();
+
+            if (cursoDao.editar(curso))
+                return Response.ok().build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @Security(NivelAcesso.NIVEL_1)

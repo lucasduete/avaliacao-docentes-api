@@ -11,12 +11,8 @@ public class CursoDao {
 
     private Connection conn;
 
-    public CursoDao () {
-        try {
-            conn = Conexao.getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public CursoDao () throws SQLException, ClassNotFoundException{
+        conn = Conexao.getConnection();
     }
 
     public boolean cadastrar(Curso curso) {
