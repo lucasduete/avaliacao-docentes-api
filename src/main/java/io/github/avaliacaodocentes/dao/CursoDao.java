@@ -68,12 +68,16 @@ public class CursoDao {
 
     public boolean remover(int codigo) {
 
-        String sql = "DELETE FROM Curso WHERE Codigo = ?";
+        String sql = "UPDATE Aluno SET CodCurso = NULL WHERE CodCurso = ?;" +
+                "DELETE FROM Professor_Curso WHERE CodCurso = ?;" +
+                "DELETE FROM Curso WHERE Codigo = ?";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setInt(1, codigo);
+            stmt.setInt(2, codigo);
+            stmt.setInt(3, codigo);
             stmt.executeUpdate();
 
             stmt.close();
