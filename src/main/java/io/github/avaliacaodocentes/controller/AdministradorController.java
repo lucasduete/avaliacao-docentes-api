@@ -213,19 +213,25 @@ public class AdministradorController {
 
     @Security(NivelAcesso.NIVEL_1)
     @POST
-    @Consumes
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("cadastrarProfessor/")
     public Response cadastrarProfessor(Professor professor) {
 
         if (professor.isEmpty() || professor.getNota() < 0 || professor.getNota() > 10)
             return Response.status(Response.Status.BAD_REQUEST).build();
 
-        ProfessorDao professorDao = new ProfessorDao();
+        try {
+            ProfessorDao professorDao = new ProfessorDao();
 
-        if (professorDao.cadastrar(professor))
-            return Response.ok().build();
-        else
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            if (professorDao.cadastrar(professor))
+                return Response.status(Response.Status.OK).build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
 }
