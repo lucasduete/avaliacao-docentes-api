@@ -18,8 +18,8 @@ public class ProfessorDao {
 
     public boolean cadastrar(Professor professor) {
 
-        String sql = "INSERT INTO Professor(Nome, Senha, Matricula, Nota) " +
-                "VALUES (?,?,?,?)";
+        String sql = "INSERT INTO Professor(Nome, Senha, Matricula, Nota, EmailAdministrador) " +
+                "VALUES (?,?,?,?,?)";
 
         try {
 
@@ -29,6 +29,7 @@ public class ProfessorDao {
             stmt.setString(2, Encryption.encrypt(professor.getSenha()));
             stmt.setString(3, professor.getMatricula());
             stmt.setFloat(4, professor.getNota());
+            stmt.setString(5, professor.getEmailAdministrador());
 
             stmt.executeUpdate();
 

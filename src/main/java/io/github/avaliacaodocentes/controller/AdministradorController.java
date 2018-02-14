@@ -215,10 +215,17 @@ public class AdministradorController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("cadastrarProfessor/")
-    public Response cadastrarProfessor(Professor professor) {
+    public Response cadastrarProfessor(Professor professor,
+                                       @Context SecurityContext securityContext) {
 
-        if (professor.isEmpty() || professor.getNota() < 0 || professor.getNota() > 10)
+        if (professor.isEmpty())
             return Response.status(Response.Status.BAD_REQUEST).build();
+
+        professor.setEmailAdministrador(
+                TokenManagement.getToken(securityContext)
+        );
+
+        professor.setNota(0);
 
         try {
             ProfessorDao professorDao = new ProfessorDao();
