@@ -14,15 +14,11 @@ public class AlunoDao {
 
     private Connection conn;
 
-    public AlunoDao() {
-        try {
-            conn = Conexao.getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public AlunoDao() throws SQLException, ClassNotFoundException{
+        conn = Conexao.getConnection();
     }
 
-    public boolean cadastrarAluno(Aluno aluno) {
+    public boolean cadastrar(Aluno aluno) {
 
         String sql = "INSERT INTO Aluno(Nome, Senha, Matricula, emailAdministrador, codCurso) VALUES (?,?,?,?,?);";
 

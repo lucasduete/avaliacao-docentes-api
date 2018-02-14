@@ -29,12 +29,50 @@ public class AdministradorController {
     @Path("cadastrarAluno/")
     public Response cadastrarAdmin(Aluno aluno) {
 
-        AlunoDao alunoDao = new AlunoDao();
-
-        if (alunoDao.cadastrarAluno(aluno))
-            return Response.ok().build();
-        else
+        if (aluno.isEmpty())
             return Response.status(Response.Status.BAD_REQUEST).build();
+
+        try {
+            AlunoDao alunoDao = new AlunoDao();
+
+            if (alunoDao.cadastrar(aluno))
+                return Response.ok().build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("editarAluno/{matricula}")
+    public Response cadastrarAdmin(Aluno aluno,
+                                   @PathParam("matricula") String matricula,
+                                   @Context SecurityContext securityContext) {
+
+        if (aluno.isEmpty() || (!aluno.getMatricula().equals(matricula)))
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        aluno.setEmailAdministrador(
+                TokenManagement.getToken(securityContext)
+        );
+
+        try {
+            AlunoDao alunoDao = new AlunoDao();
+
+            if (alunoDao.editar(aluno))
+                return Response.ok().build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
     }
 
@@ -67,24 +105,6 @@ public class AdministradorController {
         AdministradorDao administradorDao = new AdministradorDao();
 
         if (administradorDao.editar(administrador))
-            return Response.ok().build();
-        else
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
-    }
-
-    @Security(NivelAcesso.NIVEL_1)
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("editarAluno/")
-    public Response editarAluno(Aluno aluno) {
-
-        if (aluno.isEmpty())
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
-        AlunoDao alunoDao = new AlunoDao();
-
-        if (alunoDao.editar(aluno))
             return Response.ok().build();
         else
             return Response.status(Response.Status.BAD_REQUEST).build();
