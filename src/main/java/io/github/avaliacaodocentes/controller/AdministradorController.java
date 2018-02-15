@@ -1,18 +1,13 @@
 package io.github.avaliacaodocentes.controller;
 
-import io.github.avaliacaodocentes.dao.AlunoDao;
-import io.github.avaliacaodocentes.dao.CursoDao;
-import io.github.avaliacaodocentes.dao.ProfessorDao;
+import io.github.avaliacaodocentes.dao.*;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.TokenManagement;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
-import io.github.avaliacaodocentes.model.Administrador;
-import io.github.avaliacaodocentes.dao.AdministradorDao;
-import io.github.avaliacaodocentes.model.Aluno;
-import io.github.avaliacaodocentes.model.Curso;
-import io.github.avaliacaodocentes.model.Professor;
+import io.github.avaliacaodocentes.model.*;
 
 import javax.print.attribute.standard.Media;
+import javax.sql.rowset.CachedRowSet;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -267,6 +262,30 @@ public class AdministradorController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
+    }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("cadastrarCriterio/")
+    public Response cadastrarCriterio(Criterio criterio,
+                                      @Context SecurityContext securityContext) {
+
+        if (criterio.getPontoAvaliativo() == null || criterio.getPontoAvaliativo().isEmpty())
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        try {
+            CriterioDao criterioDao = new CriterioDao();
+
+            if (criterioDao.adicionar(criterio))
+                return Response.status(Response.Status.OK).build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }
