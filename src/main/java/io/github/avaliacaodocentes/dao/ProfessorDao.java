@@ -43,4 +43,32 @@ public class ProfessorDao {
 
         return true;
     }
+
+    public boolean editar(Professor professor) {
+
+        String sql = "UPDATE Professor SET Nome = ?, Senha = ?, Nota = ?, " +
+                "EmailAdministrador = ? WHERE Matricula ILIKE ?;";
+
+        try {
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, professor.getNome());
+            stmt.setString(2, Encryption.encrypt(professor.getSenha()));
+            stmt.setFloat(3, professor.getNota());
+            stmt.setString(4, professor.getEmailAdministrador());
+            stmt.setString(5, professor.getMatricula());
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+        } catch (SQLException ex) {
+
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 }

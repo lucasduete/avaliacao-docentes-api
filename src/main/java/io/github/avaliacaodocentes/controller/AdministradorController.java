@@ -241,4 +241,32 @@ public class AdministradorController {
 
     }
 
+    @Security(NivelAcesso.NIVEL_1)
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("editarProfessor/")
+    public Response editarProfessor(Professor professor,
+                                    @Context SecurityContext securityContext) {
+
+        if (professor.isEmpty() || professor.getNota() < 0 || professor.getNota() > 10)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        professor.setEmailAdministrador(
+                TokenManagement.getToken(securityContext)
+        );
+
+        try {
+            ProfessorDao professorDao = new ProfessorDao();
+
+            if (professorDao.editar(professor))
+                return Response.status(Response.Status.OK).build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
+
 }
