@@ -274,6 +274,10 @@ public class AdministradorController {
         if (criterio.getPontoAvaliativo() == null || criterio.getPontoAvaliativo().isEmpty())
             return Response.status(Response.Status.BAD_REQUEST).build();
 
+        criterio.setEmailAdministrador(
+                TokenManagement.getToken(securityContext)
+        );
+
         try {
             CriterioDao criterioDao = new CriterioDao();
 
@@ -281,7 +285,30 @@ public class AdministradorController {
                 return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
-            
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("editarCriterio/")
+    public Response editarCriterio(Criterio criterio) {
+
+        if (criterio.getPontoAvaliativo() == null || criterio.getPontoAvaliativo().isEmpty())
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        try {
+            CriterioDao criterioDao = new CriterioDao();
+
+            if (criterioDao.editar(criterio))
+                return Response.status(Response.Status.OK).build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

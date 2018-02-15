@@ -37,4 +37,29 @@ public class CriterioDao {
 
         return true;
     }
+
+    public boolean editar(Criterio criterio) {
+
+        String sql = "UPDATE Criterio SET Ponto_Avaliativo = ?, EmailAdministrador = ? " +
+                "WHERE Codigo = ?;";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, criterio.getPontoAvaliativo());
+            stmt.setString(2, criterio.getEmailAdministrador());
+            stmt.setInt(3, criterio.getCodigo());
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 }
