@@ -13,6 +13,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.sql.SQLException;
 
 @Path("aluno")
 public class AlunoController {
@@ -31,12 +32,18 @@ public class AlunoController {
                         .getToken(securityContext)))
             return Response.status(Response.Status.UNAUTHORIZED).build();
 
-        AlunoDao alunoDao = new AlunoDao();
+        try {
+            AlunoDao alunoDao = new AlunoDao();
 
-        if(alunoDao.editar(aluno))
-            return Response.ok().build();
-        else
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            if(alunoDao.editar(aluno))
+                return Response.ok().build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (SQLException | ClassNotFoundException ex) {
+
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
     }
 }

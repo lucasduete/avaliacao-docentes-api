@@ -74,8 +74,8 @@ public class LoginController {
         } catch (CredenciaisInvalidasException ciEx) {
             ciEx.printStackTrace();
             return Response.status(Response.Status.UNAUTHORIZED).build();
-        } catch (SQLException sqlEx) {
-            sqlEx.printStackTrace();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
