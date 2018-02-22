@@ -48,7 +48,6 @@ public class TokenManagement {
                     .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEYTOKEN))
                     .parseClaimsJws(token).getBody();
 
-            System.out.println("Caims : " + claims);
             return claims;
         } catch(Exception ex){
             throw ex;
