@@ -59,6 +59,7 @@ public class AvaliacaoDao {
                 try {
                     internalStmt.setInt(1, pontuacao.getCodCriterio());
                     internalStmt.setDouble(2, pontuacao.getPontuacao());
+                    internalStmt.execute();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                     aux.concat(pontuacao + ";");
