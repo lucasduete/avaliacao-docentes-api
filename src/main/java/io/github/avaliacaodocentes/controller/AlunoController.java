@@ -49,7 +49,6 @@ public class AlunoController {
         }
     }
 
-    @Security(NivelAcesso.NIVEL_2)
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("enviarAvaliacao/")

@@ -264,7 +264,6 @@ public class AdministradorController {
 
     }
 
-    @Security(NivelAcesso.NIVEL_1)
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("cadastrarCriterio/")
