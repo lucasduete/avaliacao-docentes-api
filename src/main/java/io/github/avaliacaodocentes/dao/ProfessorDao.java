@@ -107,5 +107,7 @@ public class ProfessorDao {
         
         List<Professor> lista = new ArrayList<>();
         String sql = "SELECT * FROM PROFESSOR_CURSO WHERE Codigo = ?";
+
+        return null;
     }
 }
