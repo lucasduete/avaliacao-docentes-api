@@ -37,6 +37,7 @@ public class FilterSecurityAuthentication implements ContainerRequestFilter {
         try {
 
             Claims claims = new TokenManagement().validaToken(token);
+            System.out.println("Claims 2 " + claims);
 
             if(claims==null)
                 throw new Exception("Token inválido");
@@ -50,6 +51,7 @@ public class FilterSecurityAuthentication implements ContainerRequestFilter {
     }
 
     private void modificarRequestContext(ContainerRequestContext requestContext, String indentificador) {
+        System.out.println("Identificador " + indentificador);
 
         final SecurityContext currentSecurityContext = requestContext.getSecurityContext();
 
@@ -60,6 +62,7 @@ public class FilterSecurityAuthentication implements ContainerRequestFilter {
 
                     @Override
                     public String getName() {
+                        System.out.println("Identificador 2 " + indentificador);
                         return indentificador;
                     }
                 };

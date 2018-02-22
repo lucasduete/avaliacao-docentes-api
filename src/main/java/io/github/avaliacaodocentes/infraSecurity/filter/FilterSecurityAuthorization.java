@@ -41,6 +41,7 @@ public class FilterSecurityAuthorization implements ContainerRequestFilter {
         try {
 
             String login = requestContext.getSecurityContext().getUserPrincipal().getName();
+            System.out.println("Login 1 " + login);
 
 
             if (nivelPermisaoMetodo.isEmpty()) {
@@ -75,6 +76,8 @@ public class FilterSecurityAuthorization implements ContainerRequestFilter {
 
     private void checarPermissoes(List<NivelAcesso> nivelPermissaoPermitidos, String login)
             throws Exception {
+
+        System.out.println("Login 2 " + login);
 
         try {
 
