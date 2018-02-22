@@ -1,20 +1,30 @@
 package io.github.avaliacaodocentes.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Avaliacao {
 
     private String comentario;
     private LocalDate data;
+    private String matProfessor;
+    private ArrayList<Pontuacao> pontuacoes;
+
+    {
+        data = LocalDate.now();
+    }
 
     private Avaliacao() {
 
     }
 
-    public Avaliacao(String comentario, LocalDate data) {
+    public Avaliacao(String comentario, String matProfessor,
+                     ArrayList<Pontuacao> pontuacoes) {
+
         this.comentario = comentario;
-        this.data = data;
+        this.matProfessor = matProfessor;
+        this.pontuacoes = pontuacoes;
     }
 
     public String getComentario() {
@@ -33,20 +43,38 @@ public class Avaliacao {
         this.data = data;
     }
 
+    public String getMatProfessor() {
+        return matProfessor;
+    }
+
+    public void setMatProfessor(String matProfessor) {
+        this.matProfessor = matProfessor;
+    }
+
+    public ArrayList<Pontuacao> getPontuacoes() {
+        return pontuacoes;
+    }
+
+    public void setPontuacoes(ArrayList<Pontuacao> pontuacoes) {
+        this.pontuacoes = pontuacoes;
+    }
+
     @Override
     public boolean equals(Object o) {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Avaliacao criterio = (Avaliacao) o;
-        return Objects.equals(getComentario(), criterio.getComentario()) &&
-                Objects.equals(getData(), criterio.getData());
+        Avaliacao avaliacao = (Avaliacao) o;
+        return Objects.equals(getComentario(), avaliacao.getComentario()) &&
+                Objects.equals(getData(), avaliacao.getData()) &&
+                Objects.equals(getMatProfessor(), avaliacao.getMatProfessor()) &&
+                Objects.equals(getPontuacoes(), avaliacao.getPontuacoes());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getComentario(), getData());
+        return Objects.hash(getComentario(), getData(), getMatProfessor(), getPontuacoes());
     }
 
     @Override
@@ -55,6 +83,8 @@ public class Avaliacao {
         return "Avaliacao{" +
                 "comentario='" + comentario + '\'' +
                 ", data=" + data +
+                ", matProfessor='" + matProfessor + '\'' +
+                ", pontuacoes=" + pontuacoes +
                 '}';
     }
 }
