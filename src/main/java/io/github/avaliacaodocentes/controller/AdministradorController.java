@@ -133,12 +133,12 @@ public class AdministradorController {
     public Response cadastrarCurso(Curso curso,
                                    @Context SecurityContext securityContext) {
 
-        if (curso.isEmpty() || curso.getCodigo()<= 0)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
         curso.setEmailAdministrador(
                 TokenManagement.getToken(securityContext)
         );
+
+        if (curso.isEmpty() || curso.getCodigo()<= 0)
+            return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
             CursoDao cursoDao = new CursoDao();
