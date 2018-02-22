@@ -25,7 +25,7 @@ public class ProfessorDao {
 
         String sql_1 = "INSERT INTO Professor(Nome, Senha, Matricula, Nota, EmailAdministrador) " +
                 "VALUES (?,?,?,?,?)";
-        String
+
         try {
 
             PreparedStatement stmt = conn.prepareStatement(sql_1);
