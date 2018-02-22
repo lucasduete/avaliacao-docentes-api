@@ -4,23 +4,23 @@ import java.util.Objects;
 
 public class Pontuacao {
 
-    private int pontuacao;
+    private double pontuacao;
     private int codCriterio;
 
     public Pontuacao() {
 
     }
 
-    public Pontuacao(int pontuacao, int codCriterio) {
+    public Pontuacao(double pontuacao, int codCriterio) {
         this.pontuacao = pontuacao;
         this.codCriterio = codCriterio;
     }
 
-    public int getPontuacao() {
+    public double getPontuacao() {
         return pontuacao;
     }
 
-    public void setPontuacao(int pontuacao) {
+    public void setPontuacao(double pontuacao) {
         this.pontuacao = pontuacao;
     }
 
@@ -38,7 +38,7 @@ public class Pontuacao {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pontuacao pontuacao1 = (Pontuacao) o;
-        return getPontuacao() == pontuacao1.getPontuacao() &&
+        return Double.compare(pontuacao1.getPontuacao(), getPontuacao()) == 0 &&
                 getCodCriterio() == pontuacao1.getCodCriterio();
     }
 

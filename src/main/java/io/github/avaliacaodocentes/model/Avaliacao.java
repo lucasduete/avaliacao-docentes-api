@@ -9,6 +9,7 @@ public class Avaliacao {
     private String comentario;
     private LocalDate data;
     private String matProfessor;
+    private String matAluno;
     private ArrayList<Pontuacao> pontuacoes;
 
     {
@@ -19,11 +20,12 @@ public class Avaliacao {
 
     }
 
-    public Avaliacao(String comentario, String matProfessor,
+    public Avaliacao(String comentario, String matProfessor, String matAluno,
                      ArrayList<Pontuacao> pontuacoes) {
 
         this.comentario = comentario;
         this.matProfessor = matProfessor;
+        this.matAluno = matAluno;
         this.pontuacoes = pontuacoes;
     }
 
@@ -51,6 +53,14 @@ public class Avaliacao {
         this.matProfessor = matProfessor;
     }
 
+    public String getMatAluno() {
+        return matAluno;
+    }
+
+    public void setMatAluno(String matAluno) {
+        this.matAluno = matAluno;
+    }
+
     public ArrayList<Pontuacao> getPontuacoes() {
         return pontuacoes;
     }
@@ -68,13 +78,14 @@ public class Avaliacao {
         return Objects.equals(getComentario(), avaliacao.getComentario()) &&
                 Objects.equals(getData(), avaliacao.getData()) &&
                 Objects.equals(getMatProfessor(), avaliacao.getMatProfessor()) &&
+                Objects.equals(getMatAluno(), avaliacao.getMatAluno()) &&
                 Objects.equals(getPontuacoes(), avaliacao.getPontuacoes());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getComentario(), getData(), getMatProfessor(), getPontuacoes());
+        return Objects.hash(getComentario(), getData(), getMatProfessor(), getMatAluno(), getPontuacoes());
     }
 
     @Override
@@ -84,6 +95,7 @@ public class Avaliacao {
                 "comentario='" + comentario + '\'' +
                 ", data=" + data +
                 ", matProfessor='" + matProfessor + '\'' +
+                ", matAluno='" + matAluno + '\'' +
                 ", pontuacoes=" + pontuacoes +
                 '}';
     }
