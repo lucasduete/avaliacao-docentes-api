@@ -188,7 +188,6 @@ public class AdministradorController {
 
     @Security(NivelAcesso.NIVEL_1)
     @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
     @Path("removerCurso/{codigo}")
     public Response removerCurso(@PathParam("codigo") int codCurso,
                                  @Context SecurityContext securityContext) {
