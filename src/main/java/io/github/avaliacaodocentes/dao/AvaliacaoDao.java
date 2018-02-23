@@ -17,24 +17,22 @@ public class AvaliacaoDao {
 
     public boolean cadastrar(Avaliacao avaliacao) {
 
-        String sql = "INSERT INTO Avaliacao(Data, Comentario) VALUES (?,?);";
-        int idAvaliacao = -1;
+        String sql = "INSERT INTO Avaliacao(Data, Comentario) VALUES (?,?) RETURNING Codigo;";
+        int codAvaliacao = 0;
 
         PreparedStatement stmt;
         try {
 
             //Salva Avaliaçao
-            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt = conn.prepareStatement(sql);
 
             stmt.setDate(1, Date.valueOf(avaliacao.getData()));
             stmt.setString(2, avaliacao.getComentario());
 
-            stmt.executeUpdate();
-
             //Recupera o Id da Avalicao para Proximas Querys
-            ResultSet rs = stmt.getGeneratedKeys();
+            ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                idAvaliacao = rs.getInt(1);
+                codAvaliacao = rs.getInt("Codigo");
             }
 
             //Salva Avaliacao_Aluno_Professor
@@ -44,14 +42,14 @@ public class AvaliacaoDao {
 
             stmt.setString(1, avaliacao.getMatAluno());
             stmt.setString(2, avaliacao.getMatProfessor());
-            stmt.setInt(3, idAvaliacao);
+            stmt.setInt(3, codAvaliacao);
 
             stmt.executeUpdate();
 
             //Para Cada Obj Pontuacao dentro de getPontuacoes em Avaliacao
             //salva ele na tabela correta
             sql = String.format("INSERT INTO CRITERIO_AVALIACAO (CodAvaliacao, CodCriterio, Pontuacao) "
-                    + "VALUES (%d,?,?)", idAvaliacao);
+                    + "VALUES (%d,?,?)", codAvaliacao);
             final PreparedStatement internalStmt = conn.prepareStatement(sql);
             final String aux = "";
 
