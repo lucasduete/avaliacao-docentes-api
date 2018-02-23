@@ -15,6 +15,7 @@ public class Aluno {
     }
 
     public Aluno(String nome, String senha, String matricula, String emailAdministrador, int codCurso) {
+
         this.nome = nome;
         this.senha = senha;
         this.matricula = matricula;
@@ -35,7 +36,7 @@ public class Aluno {
     }
 
     public void setSenha(String senha) {
-        senha = senha;
+        this.senha = senha;
     }
 
     public String getMatricula() {
@@ -64,24 +65,26 @@ public class Aluno {
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Aluno aluno = (Aluno) o;
-        return codCurso == aluno.codCurso &&
-                Objects.equals(nome, aluno.nome) &&
-                Objects.equals(senha, aluno.senha) &&
-                Objects.equals(matricula, aluno.matricula) &&
-                Objects.equals(emailAdministrador, aluno.emailAdministrador);
+        return getCodCurso() == aluno.getCodCurso() &&
+                Objects.equals(getNome(), aluno.getNome()) &&
+                Objects.equals(getSenha(), aluno.getSenha()) &&
+                Objects.equals(getMatricula(), aluno.getMatricula()) &&
+                Objects.equals(getEmailAdministrador(), aluno.getEmailAdministrador());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(nome, senha, matricula, emailAdministrador, codCurso);
+        return Objects.hash(getNome(), getSenha(), getMatricula(), getEmailAdministrador(), getCodCurso());
     }
 
     @Override
     public String toString() {
+
         return "Aluno{" +
                 "nome='" + nome + '\'' +
                 ", senha='" + senha + '\'' +
