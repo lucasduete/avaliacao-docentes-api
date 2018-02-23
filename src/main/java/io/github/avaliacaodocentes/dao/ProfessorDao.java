@@ -51,7 +51,7 @@ public class ProfessorDao {
 
     public boolean editar(Professor professor) {
 
-        String sql = "UPDATE Professor SET Nome = ?, Senha = ?, Nota = ?, " +
+        String sql = "UPDATE Professor SET Nome = ?, Senha = ?, " +
                 "EmailAdministrador = ? WHERE Matricula ILIKE ?;";
 
         try {
@@ -60,9 +60,8 @@ public class ProfessorDao {
 
             stmt.setString(1, professor.getNome());
             stmt.setString(2, Encryption.encrypt(professor.getSenha()));
-            stmt.setFloat(3, professor.getNota());
-            stmt.setString(4, professor.getEmailAdministrador());
-            stmt.setString(5, professor.getMatricula());
+            stmt.setString(3, professor.getEmailAdministrador());
+            stmt.setString(4, professor.getMatricula());
 
             stmt.executeUpdate();
 
@@ -93,6 +92,7 @@ public class ProfessorDao {
                 p.setMatricula(result.getString("matricula"));
                 p.setNome(result.getString("nome"));
                 p.setSenha(result.getString("senha"));
+                p.setNota(result.getFloat("nota"));
                 lista.add(p);
             }
             
