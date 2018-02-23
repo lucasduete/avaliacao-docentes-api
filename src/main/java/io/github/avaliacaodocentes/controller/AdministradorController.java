@@ -247,12 +247,12 @@ public class AdministradorController {
     public Response editarProfessor(Professor professor,
                                     @Context SecurityContext securityContext) {
 
-        if (professor.isEmpty() || professor.getNota() < 0 || professor.getNota() > 10)
-            return Response.status(Response.Status.BAD_REQUEST).build();
-
         professor.setEmailAdministrador(
                 TokenManagement.getToken(securityContext)
         );
+
+        if (professor.isEmpty())
+            return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
             ProfessorDao professorDao = new ProfessorDao();
