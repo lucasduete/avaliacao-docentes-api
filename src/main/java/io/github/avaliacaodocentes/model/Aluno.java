@@ -96,10 +96,10 @@ public class Aluno {
 
     public boolean isEmpty() {
 
-        if ((nome.isEmpty() || nome == null)
-                || (senha.isEmpty() || senha == null)
-                || (matricula.isEmpty() || matricula == null)
-                || (emailAdministrador.isEmpty() || emailAdministrador == null))
+        if ((nome == null || nome.isEmpty())
+                || (senha == null || senha.isEmpty())
+                || (matricula == null || matricula.isEmpty())
+                || (emailAdministrador == null || emailAdministrador.isEmpty()))
 
             return true;
         else

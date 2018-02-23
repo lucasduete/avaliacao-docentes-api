@@ -22,7 +22,12 @@ public class AdministradorController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("cadastrarAluno/")
-    public Response cadastrarAluno(Aluno aluno) {
+    public Response cadastrarAluno(Aluno aluno,
+                                   @Context SecurityContext securityContext) {
+
+        aluno.setEmailAdministrador(
+                TokenManagement.getToken(securityContext)
+        );
 
         if (aluno.isEmpty())
             return Response.status(Response.Status.BAD_REQUEST).build();
