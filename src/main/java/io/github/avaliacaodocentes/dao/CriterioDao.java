@@ -68,24 +68,33 @@ public class CriterioDao {
         return true;
     }
     
-    public List<Criterio> listar(){
+    public List<Criterio> listar() {
         
         String sql = "SELECT * FROM CRITERIO";
         List<Criterio> lista = new ArrayList<>();
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet result = stmt.executeQuery();
-            while(result.next()){
+
+            while(result.next()) {
                 Criterio criterio = new Criterio();
+
                 criterio.setCodigo(result.getInt("codigo"));
                 criterio.setEmailAdministrador(result.getString("emailadministrador"));
                 criterio.setPontoAvaliativo(result.getString("ponto_avaliativo"));
+
                 lista.add(criterio);
             }
-            return lista;
+
+            result.close();
+            stmt.close();
+            conn.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(CriterioDao.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return new ArrayList<>();
         }
-        return null;
+
+        return lista;
     }
 }
