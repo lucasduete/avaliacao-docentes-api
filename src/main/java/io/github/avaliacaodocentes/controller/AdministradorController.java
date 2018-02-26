@@ -80,6 +80,9 @@ public class AdministradorController {
     @Path("removeAluno/{matricula}")
     public Response removeAluno(@PathParam("matricula") String matricula) {
 
+        if (matricula == null || matricula.isEmpty())
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
         try {
             AlunoDaoInterface alunoDao = Fabrica.criarFabricaDaoPostgres().criarAlunoDao();
 
@@ -126,7 +129,7 @@ public class AdministradorController {
                                 @PathParam("emailAdmin") String emailAdmin,
                                 @Context SecurityContext securityContext) {
 
-        if (administrador.isEmpty())
+        if (emailAdmin == null || emailAdmin.isEmpty() || administrador.isEmpty())
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
@@ -150,6 +153,9 @@ public class AdministradorController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("removerAdmin/")
     public Response cadastrarAdmin(@FormParam("emailAdmin") String emailAdmin) {
+
+        if (emailAdmin == null || emailAdmin.isEmpty())
+            return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
             AdministradorDaoInterface administradorDao = Fabrica
@@ -297,6 +303,30 @@ public class AdministradorController {
                                                             .criarProfessorDao();
 
             if (professorDao.editar(professor))
+                return Response.status(Response.Status.OK).build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("editarProfessor/")
+    public Response editarProfessor(@FormParam("matricula") String matricula) {
+
+        if (matricula == null || matricula.isEmpty())
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        try {
+            ProfessorDaoInterface professorDao = Fabrica.criarFabricaDaoPostgres()
+                    .criarProfessorDao();
+
+            if (professorDao.remover(matricula))
                 return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
