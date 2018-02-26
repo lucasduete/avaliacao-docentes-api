@@ -77,7 +77,7 @@ public class AdministradorController {
 
     @Security(NivelAcesso.NIVEL_1)
     @DELETE
-    @Path("editarAluno/{matricula}")
+    @Path("removeAluno/{matricula}")
     public Response removeAluno(@PathParam("matricula") String matricula) {
 
         try {
@@ -138,6 +138,29 @@ public class AdministradorController {
                 return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("removerAdmin/")
+    public Response cadastrarAdmin(@FormParam("emailAdmin") String emailAdmin) {
+
+        try {
+            AdministradorDaoInterface administradorDao = Fabrica
+                    .criarFabricaDaoPostgres()
+                    .criarAdministradorDao();
+
+            if (administradorDao.remover(emailAdmin))
+                return Response.status(Response.Status.OK).build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
