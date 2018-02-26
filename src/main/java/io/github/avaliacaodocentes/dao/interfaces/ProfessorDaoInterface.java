@@ -8,6 +8,7 @@ public interface ProfessorDaoInterface {
 
     public boolean cadastrar(Professor professor);
     public boolean editar(Professor professor);
+    public boolean remover(String matricula);
     public List<Professor> listarTodos();
     public List<Professor> listarPorCurso(int codCurso);
 }

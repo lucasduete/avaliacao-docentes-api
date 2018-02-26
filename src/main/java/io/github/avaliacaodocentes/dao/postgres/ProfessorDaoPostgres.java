@@ -76,6 +76,29 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
 
         return true;
     }
+
+    public boolean remover(String matricula) {
+
+        String sql_1 = "DELETE FROM Professor WHERE Matricula ILIKE ?;";
+
+        try {
+
+            PreparedStatement stmt = conn.prepareStatement(sql_1);
+
+            stmt.setString(1, matricula);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
     
     public List<Professor> listarTodos() {
         
