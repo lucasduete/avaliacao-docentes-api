@@ -10,5 +10,6 @@ public interface AdministradorDaoInterface {
     public boolean cadastrar(Administrador admin);
     public Administrador buscar(String email);
     public boolean editar(Administrador administrador);
+    public boolean remover(String emailAdministrador);
     public Administrador login(String email, String senha) throws CredenciaisInvalidasException, SQLException;
 }

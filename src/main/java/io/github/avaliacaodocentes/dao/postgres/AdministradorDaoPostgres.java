@@ -98,6 +98,31 @@ public class AdministradorDaoPostgres implements AdministradorDaoInterface {
         return true;
     }
 
+    public boolean remover(String emailAdministrador) {
+
+        String sql = "UPDATE Curso SET EmailAdministrador = NULL;" +
+                "UPDATE Aluno SET EmailAdministrador = NULL;" +
+                "UPDATE professor SET EmailAdministrador = NULL;" +
+                "DELETE FROM Administrador WHERE Email ILIKE ?;";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, emailAdministrador);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
     public Administrador login(String email, String senha) throws CredenciaisInvalidasException, SQLException {
 
         Administrador admin = null;
