@@ -24,7 +24,7 @@ public class LoginController {
 
         try {
             AdministradorDaoPostgres adminDao = new AdministradorDaoPostgres();
-            Administrador admin = adminDao.loginAdmin(email, senha);
+            Administrador admin = adminDao.login(email, senha);
 
             if (admin == null)
                 return Response.status(Response.Status.NO_CONTENT).build();
@@ -36,7 +36,7 @@ public class LoginController {
         } catch (CredenciaisInvalidasException ciEx) {
             ciEx.printStackTrace();
             return Response.status(Response.Status.UNAUTHORIZED).build();
-        } catch (SQLException sqlEx) {
+        } catch (SQLException | ClassNotFoundException sqlEx) {
             sqlEx.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -51,7 +51,7 @@ public class LoginController {
 
         try {
             AlunoDaoPostgres alunoDao = new AlunoDaoPostgres();
-            Aluno aluno = alunoDao.loginAluno(matricula, senha);
+            Aluno aluno = alunoDao.login(matricula, senha);
 
             if (aluno == null)
                 return Response.status(Response.Status.NO_CONTENT).build();
