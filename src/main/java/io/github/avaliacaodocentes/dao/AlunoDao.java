@@ -1,5 +1,6 @@
 package io.github.avaliacaodocentes.dao;
 
+import io.github.avaliacaodocentes.dao.interfaces.AlunoDaoInterface;
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
 import io.github.avaliacaodocentes.model.Aluno;
 import io.github.avaliacaodocentes.factory.Conexao;
@@ -10,11 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AlunoDao {
+public class AlunoDao implements AlunoDaoInterface {
 
     private Connection conn;
 
-    public AlunoDao() throws SQLException, ClassNotFoundException{
+    public AlunoDao() throws SQLException, ClassNotFoundException {
         conn = Conexao.getConnection();
     }
 
@@ -128,7 +129,7 @@ public class AlunoDao {
         return true;
     }
 
-    public Aluno loginAluno(String matricula, String senha) throws CredenciaisInvalidasException, SQLException {
+    public Aluno login(String matricula, String senha) throws CredenciaisInvalidasException, SQLException {
 
         Aluno aluno = null;
 
