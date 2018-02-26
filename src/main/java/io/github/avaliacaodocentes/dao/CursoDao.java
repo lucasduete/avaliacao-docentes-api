@@ -1,5 +1,6 @@
 package io.github.avaliacaodocentes.dao;
 
+import io.github.avaliacaodocentes.dao.interfaces.CursoDaoInterface;
 import io.github.avaliacaodocentes.factory.Conexao;
 import io.github.avaliacaodocentes.model.Curso;
 
@@ -7,7 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class CursoDao {
+public class CursoDao implements CursoDaoInterface {
 
     private Connection conn;
 
