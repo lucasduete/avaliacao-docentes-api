@@ -77,3 +77,13 @@ CREATE TABLE PROFESSOR_CURSO(
 	FOREIGN KEY (CodCurso) REFERENCES CURSO(Codigo),
 	FOREIGN KEY (MatProfessor) REFERENCES PROFESSOR(Matricula)
 );
+
+CREATE TABLE AVALIACAO_SEMESTRAL(
+	MatProfessor VARCHAR(15),
+	CodCurso int,
+	Semestre VARCHAR(7),
+	Nota REAL,
+	PRIMARY KEY (MatProfessor,CodCurso,Semestre),
+	FOREIGN KEY (MatProfessor) REFERENCES Professor(Matricula),
+	FOREIGN KEY (CodCurso) REFERENCES Curso(Codigo)	
+);
