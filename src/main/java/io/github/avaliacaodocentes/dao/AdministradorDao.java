@@ -14,12 +14,8 @@ public class AdministradorDao {
 
     private Connection conn;
 
-    public AdministradorDao() {
-        try {
-            conn = Conexao.getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public AdministradorDao() throws SQLException, ClassNotFoundException {
+        conn = Conexao.getConnection();
     }
 
     public boolean cadastrarAdmin(Administrador admin) {
