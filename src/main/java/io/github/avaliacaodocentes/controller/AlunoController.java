@@ -9,9 +9,7 @@ import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
 import io.github.avaliacaodocentes.model.Aluno;
 import io.github.avaliacaodocentes.model.Avaliacao;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -48,6 +46,28 @@ public class AlunoController {
             ex.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @Security(NivelAcesso.NIVEL_2)
+    @DELETE
+    @Path("removerConta/")
+    public Response removerConta(@Context SecurityContext securityContext) {
+
+        try {
+            AlunoDaoInterface alunoDao = Fabrica.criarFabricaDaoPostgres().criarAlunoDao();
+
+            String matricula = TokenManagement.getToken(securityContext);
+
+            if (alunoDao.remover(matricula))
+                return Response.status(Response.Status.OK).build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
     @Security(NivelAcesso.NIVEL_2)
