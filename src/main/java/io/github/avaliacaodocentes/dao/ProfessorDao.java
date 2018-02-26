@@ -1,5 +1,6 @@
 package io.github.avaliacaodocentes.dao;
 
+import io.github.avaliacaodocentes.dao.interfaces.ProfessorDaoInterface;
 import io.github.avaliacaodocentes.factory.Conexao;
 import io.github.avaliacaodocentes.model.Professor;
 import io.github.avaliacaodocentes.resources.Encryption;
@@ -13,11 +14,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProfessorDao {
+public class ProfessorDao implements ProfessorDaoInterface {
 
     private Connection conn;
 
-    public ProfessorDao() throws SQLException, ClassNotFoundException{
+    public ProfessorDao() throws SQLException, ClassNotFoundException {
         conn = Conexao.getConnection();
     }
 
@@ -76,7 +77,7 @@ public class ProfessorDao {
         return true;
     }
     
-    public List<Professor> listarTodos(){
+    public List<Professor> listarTodos() {
         
         List<Professor> lista = new ArrayList<>();
         String sql = "SELECT * FROM PROFESSOR";
@@ -103,7 +104,7 @@ public class ProfessorDao {
         return null;
     }
     
-    public List<Professor> listarPorCurso(int codCurso){
+    public List<Professor> listarPorCurso(int codCurso) {
         
         List<Professor> lista = new ArrayList<>();
         String sql = "SELECT * FROM PROFESSOR_CURSO WHERE Codigo = ?";
