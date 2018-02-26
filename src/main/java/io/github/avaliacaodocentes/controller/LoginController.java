@@ -1,11 +1,12 @@
 package io.github.avaliacaodocentes.controller;
 
+import io.github.avaliacaodocentes.dao.interfaces.AdministradorDaoInterface;
+import io.github.avaliacaodocentes.dao.interfaces.AlunoDaoInterface;
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
+import io.github.avaliacaodocentes.factory.Fabrica;
 import io.github.avaliacaodocentes.infraSecurity.TokenManagement;
 import io.github.avaliacaodocentes.model.Administrador;
-import io.github.avaliacaodocentes.dao.postgres.AdministradorDaoPostgres;
 import io.github.avaliacaodocentes.model.Aluno;
-import io.github.avaliacaodocentes.dao.postgres.AlunoDaoPostgres;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -23,7 +24,9 @@ public class LoginController {
                                @FormParam("senha") String senha) {
 
         try {
-            AdministradorDaoPostgres adminDao = new AdministradorDaoPostgres();
+            AdministradorDaoInterface adminDao = Fabrica.criarFabricaDaoPostgres()
+                                                            .criarAdministradorDao();
+
             Administrador admin = adminDao.login(email, senha);
 
             if (admin == null)
@@ -50,7 +53,9 @@ public class LoginController {
                                @FormParam("senha") String senha) {
 
         try {
-            AlunoDaoPostgres alunoDao = new AlunoDaoPostgres();
+            AlunoDaoInterface alunoDao = Fabrica.criarFabricaDaoPostgres()
+                                                    .criarAlunoDao();
+
             Aluno aluno = alunoDao.login(matricula, senha);
 
             if (aluno == null)
