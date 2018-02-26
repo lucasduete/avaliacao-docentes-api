@@ -390,4 +390,28 @@ public class AdministradorController {
         }
     }
 
+    @Security(NivelAcesso.NIVEL_1)
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("removerCriterio/{codCriterio}")
+    public Response removerCriterio(@PathParam("codCriterio") int codCriterio) {
+
+        if (codCriterio <= 0)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        try {
+            CriterioDaoInterface criterioDao = Fabrica.criarFabricaDaoPostgres()
+                    .criarCriterioDao();
+
+            if (criterioDao.remover(codCriterio))
+                return Response.status(Response.Status.OK).build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }
