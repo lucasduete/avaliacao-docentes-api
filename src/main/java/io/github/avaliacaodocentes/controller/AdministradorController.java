@@ -150,7 +150,7 @@ public class AdministradorController {
 
     @Security(NivelAcesso.NIVEL_1)
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("removerAdmin/")
     public Response cadastrarAdmin(@FormParam("emailAdmin") String emailAdmin) {
 
@@ -315,7 +315,7 @@ public class AdministradorController {
 
     @Security(NivelAcesso.NIVEL_1)
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("editarProfessor/")
     public Response editarProfessor(@FormParam("matricula") String matricula) {
 
