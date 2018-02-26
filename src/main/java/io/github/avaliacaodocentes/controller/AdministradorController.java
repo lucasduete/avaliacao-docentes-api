@@ -1,6 +1,7 @@
 package io.github.avaliacaodocentes.controller;
 
-import io.github.avaliacaodocentes.dao.postgres.*;
+import io.github.avaliacaodocentes.dao.interfaces.*;
+import io.github.avaliacaodocentes.factory.Fabrica;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.TokenManagement;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
@@ -31,7 +32,7 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            AlunoDaoPostgres alunoDao = new AlunoDaoPostgres();
+            AlunoDaoInterface alunoDao = Fabrica.criarFabricaDaoPostgres().criarAlunoDao();
 
             if (alunoDao.cadastrar(aluno))
                 return Response.status(Response.Status.OK).build();
@@ -60,7 +61,7 @@ public class AdministradorController {
         );
 
         try {
-            AlunoDaoPostgres alunoDao = new AlunoDaoPostgres();
+            AlunoDaoInterface alunoDao = Fabrica.criarFabricaDaoPostgres().criarAlunoDao();
 
             if (alunoDao.editar(aluno))
                 return Response.status(Response.Status.OK).build();
@@ -80,7 +81,7 @@ public class AdministradorController {
     public Response removeAluno(@PathParam("matricula") String matricula) {
 
         try {
-            AlunoDaoPostgres alunoDao = new AlunoDaoPostgres();
+            AlunoDaoInterface alunoDao = Fabrica.criarFabricaDaoPostgres().criarAlunoDao();
 
             if (alunoDao.remover(matricula))
                 return Response.status(Response.Status.OK).build();
@@ -101,9 +102,11 @@ public class AdministradorController {
     public Response cadastrarAdmin(Administrador admin) {
 
         try {
-            AdministradorDaoPostgres adminDao = new AdministradorDaoPostgres();
+            AdministradorDaoInterface administradorDao = Fabrica
+                                                            .criarFabricaDaoPostgres()
+                                                                .criarAdministradorDao();
 
-            if (adminDao.cadastrar(admin))
+            if (administradorDao.cadastrar(admin))
                 return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
@@ -127,7 +130,9 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            AdministradorDaoPostgres administradorDao = new AdministradorDaoPostgres();
+            AdministradorDaoInterface administradorDao = Fabrica
+                                                            .criarFabricaDaoPostgres()
+                                                                .criarAdministradorDao();
 
             if (administradorDao.editar(administrador))
                 return Response.status(Response.Status.OK).build();
@@ -155,7 +160,7 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            CursoDaoPostgres cursoDao = new CursoDaoPostgres();
+            CursoDaoInterface cursoDao = Fabrica.criarFabricaDaoPostgres().criarCursoDao();
 
             if (cursoDao.cadastrar(curso))
                 return Response.status(Response.Status.OK).build();
@@ -183,7 +188,7 @@ public class AdministradorController {
         );
 
         try {
-            CursoDaoPostgres cursoDao = new CursoDaoPostgres();
+            CursoDaoInterface cursoDao = Fabrica.criarFabricaDaoPostgres().criarCursoDao();
 
             if (cursoDao.editar(curso, codCurso))
                 return Response.status(Response.Status.OK).build();
@@ -205,7 +210,7 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            CursoDaoPostgres cursoDao = new CursoDaoPostgres();
+            CursoDaoInterface cursoDao = Fabrica.criarFabricaDaoPostgres().criarCursoDao();
 
             if (cursoDao.remover(codCurso))
                 return Response.status(Response.Status.OK).build();
@@ -236,7 +241,8 @@ public class AdministradorController {
         professor.setNota(0);
 
         try {
-            ProfessorDaoPostgres professorDao = new ProfessorDaoPostgres();
+            ProfessorDaoInterface professorDao = Fabrica.criarFabricaDaoPostgres()
+                                                            .criarProfessorDao();
 
             if (professorDao.cadastrar(professor))
                 return Response.status(Response.Status.OK).build();
@@ -264,7 +270,8 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            ProfessorDaoPostgres professorDao = new ProfessorDaoPostgres();
+            ProfessorDaoInterface professorDao = Fabrica.criarFabricaDaoPostgres()
+                                                            .criarProfessorDao();
 
             if (professorDao.editar(professor))
                 return Response.status(Response.Status.OK).build();
@@ -292,7 +299,8 @@ public class AdministradorController {
         );
 
         try {
-            CriterioDaoPostgres criterioDao = new CriterioDaoPostgres();
+            CriterioDaoInterface criterioDao = Fabrica.criarFabricaDaoPostgres()
+                                                        .criarCriterioDao();
 
             if (criterioDao.adicionar(criterio))
                 return Response.status(Response.Status.OK).build();
@@ -315,7 +323,8 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            CriterioDaoPostgres criterioDao = new CriterioDaoPostgres();
+            CriterioDaoInterface criterioDao = Fabrica.criarFabricaDaoPostgres()
+                                                            .criarCriterioDao();
 
             if (criterioDao.editar(criterio))
                 return Response.status(Response.Status.OK).build();
