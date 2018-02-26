@@ -1,4 +1,4 @@
-package io.github.avaliacaodocentes.dao;
+package io.github.avaliacaodocentes.dao.postgres;
 
 import io.github.avaliacaodocentes.dao.interfaces.AdministradorDaoInterface;
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
@@ -11,11 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AdministradorDao implements AdministradorDaoInterface {
+public class AdministradorDaoPostgres implements AdministradorDaoInterface {
 
     private Connection conn;
 
-    public AdministradorDao() throws SQLException, ClassNotFoundException {
+    public AdministradorDaoPostgres() throws SQLException, ClassNotFoundException {
         conn = Conexao.getConnection();
     }
 

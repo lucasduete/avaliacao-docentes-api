@@ -1,4 +1,4 @@
-package io.github.avaliacaodocentes.dao;
+package io.github.avaliacaodocentes.dao.postgres;
 
 import io.github.avaliacaodocentes.dao.interfaces.CursoDaoInterface;
 import io.github.avaliacaodocentes.factory.Conexao;
@@ -8,11 +8,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class CursoDao implements CursoDaoInterface {
+public class CursoDaoPostgres implements CursoDaoInterface {
 
     private Connection conn;
 
-    public CursoDao () throws SQLException, ClassNotFoundException{
+    public CursoDaoPostgres() throws SQLException, ClassNotFoundException{
         conn = Conexao.getConnection();
     }
 

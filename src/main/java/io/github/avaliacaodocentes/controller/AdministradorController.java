@@ -1,13 +1,11 @@
 package io.github.avaliacaodocentes.controller;
 
-import io.github.avaliacaodocentes.dao.*;
+import io.github.avaliacaodocentes.dao.postgres.*;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.TokenManagement;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
 import io.github.avaliacaodocentes.model.*;
 
-import javax.print.attribute.standard.Media;
-import javax.sql.rowset.CachedRowSet;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -33,7 +31,7 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            AlunoDao alunoDao = new AlunoDao();
+            AlunoDaoPostgres alunoDao = new AlunoDaoPostgres();
 
             if (alunoDao.cadastrar(aluno))
                 return Response.status(Response.Status.OK).build();
@@ -62,7 +60,7 @@ public class AdministradorController {
         );
 
         try {
-            AlunoDao alunoDao = new AlunoDao();
+            AlunoDaoPostgres alunoDao = new AlunoDaoPostgres();
 
             if (alunoDao.editar(aluno))
                 return Response.status(Response.Status.OK).build();
@@ -82,7 +80,7 @@ public class AdministradorController {
     public Response removeAluno(@PathParam("matricula") String matricula) {
 
         try {
-            AlunoDao alunoDao = new AlunoDao();
+            AlunoDaoPostgres alunoDao = new AlunoDaoPostgres();
 
             if (alunoDao.remover(matricula))
                 return Response.status(Response.Status.OK).build();
@@ -103,7 +101,7 @@ public class AdministradorController {
     public Response cadastrarAdmin(Administrador admin) {
 
         try {
-            AdministradorDao adminDao = new AdministradorDao();
+            AdministradorDaoPostgres adminDao = new AdministradorDaoPostgres();
 
             if (adminDao.cadastrar(admin))
                 return Response.status(Response.Status.OK).build();
@@ -129,7 +127,7 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            AdministradorDao administradorDao = new AdministradorDao();
+            AdministradorDaoPostgres administradorDao = new AdministradorDaoPostgres();
 
             if (administradorDao.editar(administrador))
                 return Response.status(Response.Status.OK).build();
@@ -157,7 +155,7 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            CursoDao cursoDao = new CursoDao();
+            CursoDaoPostgres cursoDao = new CursoDaoPostgres();
 
             if (cursoDao.cadastrar(curso))
                 return Response.status(Response.Status.OK).build();
@@ -185,7 +183,7 @@ public class AdministradorController {
         );
 
         try {
-            CursoDao cursoDao = new CursoDao();
+            CursoDaoPostgres cursoDao = new CursoDaoPostgres();
 
             if (cursoDao.editar(curso, codCurso))
                 return Response.status(Response.Status.OK).build();
@@ -207,7 +205,7 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            CursoDao cursoDao = new CursoDao();
+            CursoDaoPostgres cursoDao = new CursoDaoPostgres();
 
             if (cursoDao.remover(codCurso))
                 return Response.status(Response.Status.OK).build();
@@ -238,7 +236,7 @@ public class AdministradorController {
         professor.setNota(0);
 
         try {
-            ProfessorDao professorDao = new ProfessorDao();
+            ProfessorDaoPostgres professorDao = new ProfessorDaoPostgres();
 
             if (professorDao.cadastrar(professor))
                 return Response.status(Response.Status.OK).build();
@@ -266,7 +264,7 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            ProfessorDao professorDao = new ProfessorDao();
+            ProfessorDaoPostgres professorDao = new ProfessorDaoPostgres();
 
             if (professorDao.editar(professor))
                 return Response.status(Response.Status.OK).build();
@@ -294,7 +292,7 @@ public class AdministradorController {
         );
 
         try {
-            CriterioDao criterioDao = new CriterioDao();
+            CriterioDaoPostgres criterioDao = new CriterioDaoPostgres();
 
             if (criterioDao.adicionar(criterio))
                 return Response.status(Response.Status.OK).build();
@@ -317,7 +315,7 @@ public class AdministradorController {
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
-            CriterioDao criterioDao = new CriterioDao();
+            CriterioDaoPostgres criterioDao = new CriterioDaoPostgres();
 
             if (criterioDao.editar(criterio))
                 return Response.status(Response.Status.OK).build();

@@ -2,26 +2,15 @@ package io.github.avaliacaodocentes.controller;
 
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
 import io.github.avaliacaodocentes.infraSecurity.TokenManagement;
-import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
 import io.github.avaliacaodocentes.model.Administrador;
-import io.github.avaliacaodocentes.dao.AdministradorDao;
+import io.github.avaliacaodocentes.dao.postgres.AdministradorDaoPostgres;
 import io.github.avaliacaodocentes.model.Aluno;
-import io.github.avaliacaodocentes.dao.AlunoDao;
+import io.github.avaliacaodocentes.dao.postgres.AlunoDaoPostgres;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
-import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.DatatypeConverter;
 import java.sql.SQLException;
-
-import java.util.Calendar;
-import java.util.Date;
 
 @Path("login")
 public class LoginController {
@@ -34,7 +23,7 @@ public class LoginController {
                                @FormParam("senha") String senha) {
 
         try {
-            AdministradorDao adminDao = new AdministradorDao();
+            AdministradorDaoPostgres adminDao = new AdministradorDaoPostgres();
             Administrador admin = adminDao.loginAdmin(email, senha);
 
             if (admin == null)
@@ -61,7 +50,7 @@ public class LoginController {
                                @FormParam("senha") String senha) {
 
         try {
-            AlunoDao alunoDao = new AlunoDao();
+            AlunoDaoPostgres alunoDao = new AlunoDaoPostgres();
             Aluno aluno = alunoDao.loginAluno(matricula, senha);
 
             if (aluno == null)

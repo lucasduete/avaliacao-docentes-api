@@ -1,7 +1,7 @@
 package io.github.avaliacaodocentes.controller;
 
-import io.github.avaliacaodocentes.dao.AlunoDao;
-import io.github.avaliacaodocentes.dao.AvaliacaoDao;
+import io.github.avaliacaodocentes.dao.postgres.AlunoDaoPostgres;
+import io.github.avaliacaodocentes.dao.postgres.AvaliacaoDaoPostgres;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.TokenManagement;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
@@ -36,7 +36,7 @@ public class AlunoController {
             return Response.status(Response.Status.UNAUTHORIZED).build();
 
         try {
-            AlunoDao alunoDao = new AlunoDao();
+            AlunoDaoPostgres alunoDao = new AlunoDaoPostgres();
 
             if(alunoDao.editar(aluno))
                 return Response.ok().build();
@@ -62,7 +62,7 @@ public class AlunoController {
 
         try {
 
-            AvaliacaoDao avaliacaoDao = new AvaliacaoDao();
+            AvaliacaoDaoPostgres avaliacaoDao = new AvaliacaoDaoPostgres();
 
             avaliacao.setData(LocalDate.now());
             avaliacao.setMatAluno(

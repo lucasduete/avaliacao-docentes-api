@@ -1,4 +1,4 @@
-package io.github.avaliacaodocentes.dao;
+package io.github.avaliacaodocentes.dao.postgres;
 
 import io.github.avaliacaodocentes.dao.interfaces.AlunoDaoInterface;
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
@@ -11,11 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AlunoDao implements AlunoDaoInterface {
+public class AlunoDaoPostgres implements AlunoDaoInterface {
 
     private Connection conn;
 
-    public AlunoDao() throws SQLException, ClassNotFoundException {
+    public AlunoDaoPostgres() throws SQLException, ClassNotFoundException {
         conn = Conexao.getConnection();
     }
 

@@ -1,4 +1,4 @@
-package io.github.avaliacaodocentes.dao;
+package io.github.avaliacaodocentes.dao.postgres;
 
 import io.github.avaliacaodocentes.dao.interfaces.ProfessorDaoInterface;
 import io.github.avaliacaodocentes.factory.Conexao;
@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProfessorDao implements ProfessorDaoInterface {
+public class ProfessorDaoPostgres implements ProfessorDaoInterface {
 
     private Connection conn;
 
-    public ProfessorDao() throws SQLException, ClassNotFoundException {
+    public ProfessorDaoPostgres() throws SQLException, ClassNotFoundException {
         conn = Conexao.getConnection();
     }
 
@@ -99,7 +99,7 @@ public class ProfessorDao implements ProfessorDaoInterface {
             
             return lista;
         } catch (SQLException ex) {
-            Logger.getLogger(ProfessorDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProfessorDaoPostgres.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

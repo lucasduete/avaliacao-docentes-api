@@ -1,4 +1,4 @@
-package io.github.avaliacaodocentes.dao;
+package io.github.avaliacaodocentes.dao.postgres;
 
 import io.github.avaliacaodocentes.dao.interfaces.AvaliacaoDaoInterface;
 import io.github.avaliacaodocentes.factory.Conexao;
@@ -8,11 +8,11 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AvaliacaoDao implements AvaliacaoDaoInterface {
+public class AvaliacaoDaoPostgres implements AvaliacaoDaoInterface {
 
     private final Connection conn;
 
-    public AvaliacaoDao() throws SQLException, ClassNotFoundException {
+    public AvaliacaoDaoPostgres() throws SQLException, ClassNotFoundException {
         conn = Conexao.getConnection();
     }
 
@@ -93,7 +93,7 @@ public class AvaliacaoDao implements AvaliacaoDaoInterface {
             stmt.execute();
 
         } catch (SQLException ex) {
-            Logger.getLogger(AvaliacaoDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AvaliacaoDaoPostgres.class.getName()).log(Level.SEVERE, null, ex);
         }
         return true;
     }

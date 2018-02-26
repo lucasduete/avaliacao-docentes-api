@@ -1,4 +1,4 @@
-package io.github.avaliacaodocentes.dao;
+package io.github.avaliacaodocentes.dao.postgres;
 
 import io.github.avaliacaodocentes.dao.interfaces.CriterioDaoInterface;
 import io.github.avaliacaodocentes.factory.Conexao;
@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CriterioDao implements CriterioDaoInterface {
+public class CriterioDaoPostgres implements CriterioDaoInterface {
 
     private Connection conn;
 
-    public CriterioDao() throws SQLException, ClassNotFoundException {
+    public CriterioDaoPostgres() throws SQLException, ClassNotFoundException {
         conn = Conexao.getConnection();
     }
 
