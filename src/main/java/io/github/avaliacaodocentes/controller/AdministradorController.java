@@ -36,7 +36,7 @@ public class AdministradorController {
             AlunoDao alunoDao = new AlunoDao();
 
             if (alunoDao.cadastrar(aluno))
-                return Response.ok().build();
+                return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -65,7 +65,7 @@ public class AdministradorController {
             AlunoDao alunoDao = new AlunoDao();
 
             if (alunoDao.editar(aluno))
-                return Response.ok().build();
+                return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -85,7 +85,7 @@ public class AdministradorController {
             AlunoDao alunoDao = new AlunoDao();
 
             if (alunoDao.remover(matricula))
-                return Response.ok().build();
+                return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -102,12 +102,18 @@ public class AdministradorController {
     @Path("cadastrarAdmin/")
     public Response cadastrarAdmin(Administrador admin) {
 
-        AdministradorDao adminDao = new AdministradorDao();
+        try {
+            AdministradorDao adminDao = new AdministradorDao();
 
-        if (adminDao.cadastrarAdmin(admin))
-            return Response.ok().build();
-        else
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            if (adminDao.cadastrarAdmin(admin))
+                return Response.status(Response.Status.OK).build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
     }
 
@@ -122,12 +128,17 @@ public class AdministradorController {
         if (administrador.isEmpty())
             return Response.status(Response.Status.BAD_REQUEST).build();
 
-        AdministradorDao administradorDao = new AdministradorDao();
+        try {
+            AdministradorDao administradorDao = new AdministradorDao();
 
-        if (administradorDao.editar(administrador))
-            return Response.ok().build();
-        else
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            if (administradorDao.editar(administrador))
+                return Response.status(Response.Status.OK).build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
 
     }
 
@@ -149,7 +160,7 @@ public class AdministradorController {
             CursoDao cursoDao = new CursoDao();
 
             if (cursoDao.cadastrar(curso))
-                return Response.ok().build();
+                return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -177,7 +188,7 @@ public class AdministradorController {
             CursoDao cursoDao = new CursoDao();
 
             if (cursoDao.editar(curso, codCurso))
-                return Response.ok().build();
+                return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -199,7 +210,7 @@ public class AdministradorController {
             CursoDao cursoDao = new CursoDao();
 
             if (cursoDao.remover(codCurso))
-                return Response.ok().build();
+                return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
 
