@@ -98,4 +98,29 @@ public class CriterioDaoPostgres implements CriterioDaoInterface {
 
         return lista;
     }
+
+    public boolean remover(int codigo) {
+
+        String sql = "DELETE FROM Criterio_Avaliacao WHERE CodCriterio = ?;" +
+                "DELETE FROM Criterio WHERE Codigo = ?;";
+        int codAvaliacao;
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, codigo);
+            stmt.setInt(2, codigo);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 }
