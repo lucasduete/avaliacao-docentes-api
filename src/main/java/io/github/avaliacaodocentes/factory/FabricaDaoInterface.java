@@ -12,4 +12,5 @@ public interface FabricaDaoInterface {
     public CriterioDaoInterface criarCriterioDao() throws SQLException, ClassNotFoundException;
     public CursoDaoInterface criarCursoDao() throws SQLException, ClassNotFoundException;
     public ProfessorDaoInterface criarProfessorDao() throws SQLException, ClassNotFoundException;
+    public RankingDaoInterface criarRankingDao() throws SQLException, ClassNotFoundException;
 }

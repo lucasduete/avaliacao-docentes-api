@@ -37,4 +37,9 @@ public class FabricaDaoPostgres implements FabricaDaoInterface {
         return new ProfessorDaoPostgres();
     }
 
+    @Override
+    public RankingDaoInterface criarRankingDao() throws SQLException, ClassNotFoundException {
+        return new RankingDaoPostgres();
+    }
+
 }
