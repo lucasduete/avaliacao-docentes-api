@@ -1,7 +1,8 @@
 package io.github.avaliacaodocentes.controller;
 
-import io.github.avaliacaodocentes.dao.postgres.AlunoDaoPostgres;
-import io.github.avaliacaodocentes.dao.postgres.AvaliacaoDaoPostgres;
+import io.github.avaliacaodocentes.dao.interfaces.AlunoDaoInterface;
+import io.github.avaliacaodocentes.dao.interfaces.AvaliacaoDaoInterface;
+import io.github.avaliacaodocentes.factory.Fabrica;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.TokenManagement;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
@@ -36,7 +37,7 @@ public class AlunoController {
             return Response.status(Response.Status.UNAUTHORIZED).build();
 
         try {
-            AlunoDaoPostgres alunoDao = new AlunoDaoPostgres();
+            AlunoDaoInterface alunoDao = Fabrica.criarFabricaDaoPostgres().criarAlunoDao();
 
             if(alunoDao.editar(aluno))
                 return Response.ok().build();
@@ -62,7 +63,8 @@ public class AlunoController {
 
         try {
 
-            AvaliacaoDaoPostgres avaliacaoDao = new AvaliacaoDaoPostgres();
+            AvaliacaoDaoInterface avaliacaoDao = Fabrica.criarFabricaDaoPostgres()
+                                                            .criarAvaliacaoDao();
 
             avaliacao.setData(LocalDate.now());
             avaliacao.setMatAluno(
