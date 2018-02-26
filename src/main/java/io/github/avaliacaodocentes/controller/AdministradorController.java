@@ -105,7 +105,7 @@ public class AdministradorController {
         try {
             AdministradorDao adminDao = new AdministradorDao();
 
-            if (adminDao.cadastrarAdmin(admin))
+            if (adminDao.cadastrar(admin))
                 return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
