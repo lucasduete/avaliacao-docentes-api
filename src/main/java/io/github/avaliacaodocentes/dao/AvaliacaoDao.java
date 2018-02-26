@@ -1,5 +1,6 @@
 package io.github.avaliacaodocentes.dao;
 
+import io.github.avaliacaodocentes.dao.interfaces.AvaliacaoDaoInterface;
 import io.github.avaliacaodocentes.factory.Conexao;
 import io.github.avaliacaodocentes.model.Avaliacao;
 
@@ -7,7 +8,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AvaliacaoDao {
+public class AvaliacaoDao implements AvaliacaoDaoInterface {
 
     private final Connection conn;
 
