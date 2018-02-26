@@ -1,5 +1,6 @@
 package io.github.avaliacaodocentes.dao;
 
+import io.github.avaliacaodocentes.dao.interfaces.CriterioDaoInterface;
 import io.github.avaliacaodocentes.factory.Conexao;
 import io.github.avaliacaodocentes.model.Criterio;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CriterioDao {
+public class CriterioDao implements CriterioDaoInterface {
 
     private Connection conn;
 
