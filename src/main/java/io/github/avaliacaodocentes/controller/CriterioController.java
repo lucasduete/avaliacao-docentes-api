@@ -1,6 +1,7 @@
 package io.github.avaliacaodocentes.controller;
 
-import io.github.avaliacaodocentes.dao.postgres.CriterioDaoPostgres;
+import io.github.avaliacaodocentes.dao.interfaces.CriterioDaoInterface;
+import io.github.avaliacaodocentes.factory.Fabrica;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,7 +19,8 @@ public class CriterioController {
     public Response listarCriterios() {
 
         try {
-            CriterioDaoPostgres criterioDao = new CriterioDaoPostgres();
+            CriterioDaoInterface criterioDao = Fabrica.criarFabricaDaoPostgres()
+                                                        .criarCriterioDao();
 
             return Response.ok(criterioDao.listar()).build();
         } catch (SQLException | ClassNotFoundException ex) {
