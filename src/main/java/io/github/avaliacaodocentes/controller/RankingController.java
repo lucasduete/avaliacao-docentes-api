@@ -19,7 +19,7 @@ public class RankingController {
     @Security
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("rankingGeral")
+    @Path("rankingGeral/")
     public Response getRanking() {
 
         try {
