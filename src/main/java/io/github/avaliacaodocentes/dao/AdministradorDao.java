@@ -1,5 +1,6 @@
 package io.github.avaliacaodocentes.dao;
 
+import io.github.avaliacaodocentes.dao.interfaces.AdministradorDaoInterface;
 import io.github.avaliacaodocentes.exceptions.CredenciaisInvalidasException;
 import io.github.avaliacaodocentes.model.Administrador;
 import io.github.avaliacaodocentes.factory.Conexao;
@@ -10,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AdministradorDao {
+public class AdministradorDao implements AdministradorDaoInterface {
 
     private Connection conn;
 
@@ -18,7 +19,7 @@ public class AdministradorDao {
         conn = Conexao.getConnection();
     }
 
-    public boolean cadastrarAdmin(Administrador admin) {
+    public boolean cadastrar(Administrador admin) {
 
         String sql = "INSERT INTO Administrador(Email, Nome, Senha) VALUES (?,?,?);";
 
@@ -97,7 +98,7 @@ public class AdministradorDao {
         return true;
     }
 
-    public Administrador loginAdmin(String email, String senha) throws CredenciaisInvalidasException, SQLException {
+    public Administrador login(String email, String senha) throws CredenciaisInvalidasException, SQLException {
 
         Administrador admin = null;
 
