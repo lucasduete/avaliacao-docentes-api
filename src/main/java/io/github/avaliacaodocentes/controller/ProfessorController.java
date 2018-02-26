@@ -1,6 +1,7 @@
 package io.github.avaliacaodocentes.controller;
 
-import io.github.avaliacaodocentes.dao.postgres.ProfessorDaoPostgres;
+import io.github.avaliacaodocentes.dao.interfaces.ProfessorDaoInterface;
+import io.github.avaliacaodocentes.factory.Fabrica;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,7 +19,8 @@ public class ProfessorController {
     public Response listarProfessores() {
 
         try {
-            ProfessorDaoPostgres professorDao = new ProfessorDaoPostgres();
+            ProfessorDaoInterface professorDao = Fabrica.criarFabricaDaoPostgres()
+                                                            .criarProfessorDao();
 
             return Response.ok(professorDao.listarTodos()).build();
         } catch (SQLException | ClassNotFoundException ex) {
