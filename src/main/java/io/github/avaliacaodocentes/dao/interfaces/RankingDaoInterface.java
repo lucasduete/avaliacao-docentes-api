@@ -7,4 +7,5 @@ import java.util.List;
 public interface RankingDaoInterface {
 
     public List<Professor> gerarRanking();
+    public List<Professor> gerarRankingSemestral(String semestre);
 }

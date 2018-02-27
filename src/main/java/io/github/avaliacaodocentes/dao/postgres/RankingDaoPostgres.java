@@ -47,4 +47,39 @@ public class RankingDaoPostgres implements RankingDaoInterface {
 
         return professores;
     }
+
+    @Override
+    public List<Professor> gerarRankingSemestral(String semestre) {
+        String sql = "SELECT Prof.Nome, AvSemestral.Nota FROM Professor AS Prof " +
+                "JOIN Avaliacao_Semestral AS AvSemestral " +
+                "ON Prof.Matricula = AvSemestral.MatProfessor " +
+                "WHERE Semestre ILIKE ? ORDER BY AvSemestral.Nota DESC;";
+        List<Professor> professores = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, semestre);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Professor professor = new Professor();
+
+                professor.setNome(rs.getString("Nome"));
+                professor.setNota(rs.getFloat("Nota"));
+
+                professores.add(professor);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return professores;
+    }
 }
