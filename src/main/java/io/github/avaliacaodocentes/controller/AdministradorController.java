@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.sql.SQLException;
+import java.util.List;
 
 @Path("admin")
 public class AdministradorController {
@@ -404,6 +405,30 @@ public class AdministradorController {
                     .criarCriterioDao();
 
             if (criterioDao.remover(codCriterio))
+                return Response.status(Response.Status.OK).build();
+            else
+                return Response.status(Response.Status.BAD_REQUEST).build();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @Security(NivelAcesso.NIVEL_1)
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("finalizarSemestre/{semestre}")
+    public Response finalizarSemestre(@PathParam("semestre") String semestre) {
+
+        if (semestre == null || semestre.isEmpty() || semestre.length() != 6)
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        try {
+            RankingDaoInterface rankingDao = Fabrica.criarFabricaDaoPostgres()
+                    .criarRankingDao();
+
+            if(rankingDao.finalizarSemestre(semestre))
                 return Response.status(Response.Status.OK).build();
             else
                 return Response.status(Response.Status.BAD_REQUEST).build();
