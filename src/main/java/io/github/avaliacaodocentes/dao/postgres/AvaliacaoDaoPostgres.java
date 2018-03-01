@@ -72,6 +72,11 @@ public class AvaliacaoDaoPostgres implements AvaliacaoDaoInterface {
                 return false;
             }
 
+            internalStmt.close();
+            rs.close();
+            stmt.close();
+            conn.close();
+
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
@@ -124,6 +129,10 @@ public class AvaliacaoDaoPostgres implements AvaliacaoDaoInterface {
             stmt.setInt(2, codAvaliacao);
 
             stmt.executeUpdate();
+
+            rs.close();
+            stmt.close();
+            conn.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
