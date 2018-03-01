@@ -80,20 +80,22 @@ public class AvaliacaoDaoPostgres implements AvaliacaoDaoInterface {
 
     public boolean deletar(int codigo) {
 
-        String sql_1 = "DELETE FROM CRITERIO_AVALIACAO WHERE CodAvaliacao = ?";
-        String sql_2 = "DELETE FROM AVALIACAO_ALUNO_PROFESSOR WHERE CodAvaliacao = ?";
+        String sql = "DELETE FROM CRITERIO_AVALIACAO WHERE CodAvaliacao = ?; " +
+                "DELETE FROM AVALIACAO_ALUNO_PROFESSOR WHERE CodAvaliacao = ?;" +
+                "DELETE FROM Avaliacao WHERE Codigo = ?";
+
         try {
-
-            PreparedStatement stmt = conn.prepareStatement(sql_1);
+            PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, codigo);
+            stmt.setInt(2, codigo);
+            stmt.setInt(3, codigo);
             stmt.execute();
 
-            PreparedStatement stmt2 = conn.prepareStatement(sql_2);
-            stmt.setInt(1, codigo);
-            stmt.execute();
-
+            stmt.close();
+            conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AvaliacaoDaoPostgres.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return false;
         }
         return true;
     }
