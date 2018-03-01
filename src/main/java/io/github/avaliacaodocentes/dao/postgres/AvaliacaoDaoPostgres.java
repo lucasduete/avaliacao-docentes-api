@@ -104,7 +104,7 @@ public class AvaliacaoDaoPostgres implements AvaliacaoDaoInterface {
 
     public void deletar(String matAluno, String matProfessor) {
 
-        String sql = "DELETE FROM AVALIACAO_ALUNO_PROFESSOR WHERE  MatAluno ILIKE ? AND MatProfessor ILIKE ? RETURNING CodAvaliacao;";
+        String sql = "DELETE FROM AVALIACAO_ALUNO_PROFESSOR WHERE  MatAluno ? AND MatProfessor ILIKE ? RETURNING CodAvaliacao;";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
