@@ -18,6 +18,8 @@ public class AvaliacaoDaoPostgres implements AvaliacaoDaoInterface {
 
     public boolean cadastrar(Avaliacao avaliacao) {
 
+        deletar(avaliacao.getMatAluno(), avaliacao.getMatProfessor());
+
         String sql = "INSERT INTO Avaliacao(Data, Comentario) VALUES (?,?) RETURNING Codigo;";
         int codAvaliacao = 0;
 
@@ -98,6 +100,35 @@ public class AvaliacaoDaoPostgres implements AvaliacaoDaoInterface {
             return false;
         }
         return true;
+    }
+
+    public void deletar(String matAluno, String matProfessor) {
+
+        String sql = "DELETE FROM AVALIACAO_ALUNO_PROFESSOR WHERE  MatAluno ILIKE ? AND MatProfessor ILIKE ? RETURNING CodAvaliacao;";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, matAluno);
+            stmt.setString(2, matProfessor);
+
+            ResultSet rs = stmt.executeQuery();
+            int codAvaliacao = -1;
+            if (rs.next())
+                codAvaliacao = rs.getInt("codAvaliacao");
+
+            sql = "DELETE FROM CRITERIO_AVALIACAO WHERE codAvaliacao = ?; " +
+                    "DELETE FROM Avaliacao WHERE Codigo = ?";
+
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, codAvaliacao);
+            stmt.setInt(2, codAvaliacao);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
     }
     
     
