@@ -102,29 +102,34 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
     
     public List<Professor> listarTodos() {
         
-        List<Professor> lista = new ArrayList<>();
+        List<Professor> professores = new ArrayList<>();
         String sql = "SELECT * FROM PROFESSOR";
-        
         
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet result = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             
-            while(result.next()){
-                Professor p = new Professor();
-                p.setEmailAdministrador(result.getString("emailAdministrador"));
-                p.setMatricula(result.getString("matricula"));
-                p.setNome(result.getString("nome"));
-                p.setSenha(result.getString("senha"));
-                p.setNota(result.getFloat("nota"));
-                lista.add(p);
+            while(rs.next()) {
+                Professor professor = new Professor();
+
+                professor.setEmailAdministrador(rs.getString("emailAdministrador"));
+                professor.setMatricula(rs.getString("matricula"));
+                professor.setNome(rs.getString("nome"));
+                professor.setSenha(rs.getString("senha"));
+                professor.setNota(rs.getFloat("nota"));
+
+                professores.add(professor);
             }
             
-            return lista;
+            rs.close();
+            stmt.close();
+            conn.close();
+
         } catch (SQLException ex) {
-            Logger.getLogger(ProfessorDaoPostgres.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
-        return null;
+
+        return professores;
     }
     
     public List<Professor> listarPorCurso(int codCurso) {
