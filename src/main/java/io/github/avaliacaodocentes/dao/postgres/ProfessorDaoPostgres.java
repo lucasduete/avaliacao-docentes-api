@@ -103,8 +103,8 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
     public List<Professor> listarTodos() {
         
         List<Professor> professores = new ArrayList<>();
-        String sql = "SELECT * FROM PROFESSOR";
-        
+        String sql = "SELECT * FROM PROFESSOR ORDER BY Nome ASC";
+
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -135,7 +135,7 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
     public List<Professor> listarPorCurso(int codCurso) {
         
         List<Professor> lista = new ArrayList<>();
-        String sql = "SELECT * FROM PROFESSOR_CURSO WHERE Codigo = ?";
+        String sql = "SELECT * FROM PROFESSOR_CURSO WHERE Codigo = ? ORDER BY Nome ASC";
 
         return null;
     }
