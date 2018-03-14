@@ -1,25 +1,31 @@
 package io.github.avaliacaodocentes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 public class Professor {
 
-    private String nome;
-    private String foto;
     private String matricula;
-    private String emailAdministrador;
+    private String nome;
     private float nota;
+    @JsonIgnore
+    private String foto;
+    @JsonIgnore
+    private String emailAdministrador;
+
 
     public Professor() {
 
     }
 
-    public Professor(String nome, String foto, String matricula, String emailAdministrador, float nota) {
-        this.nome = nome;
-        this.foto = foto;
+    public Professor(String matricula, String nome, float nota, String foto, String emailAdministrador) {
+
         this.matricula = matricula;
-        this.emailAdministrador = emailAdministrador;
+        this.nome = nome;
         this.nota = nota;
+        this.foto = foto;
+        this.emailAdministrador = emailAdministrador;
     }
 
     public String getNome() {

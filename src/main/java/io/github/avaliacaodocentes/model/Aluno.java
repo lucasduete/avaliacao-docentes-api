@@ -1,5 +1,7 @@
 package io.github.avaliacaodocentes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 public class Aluno {
@@ -7,20 +9,22 @@ public class Aluno {
     private String nome;
     private String senha;
     private String matricula;
-    private String emailAdministrador;
     private int codCurso;
+    @JsonIgnore
+    private String emailAdministrador;
+
 
     public Aluno() {
 
     }
 
-    public Aluno(String nome, String senha, String matricula, String emailAdministrador, int codCurso) {
+    public Aluno(String nome, String senha, String matricula, int codCurso, String emailAdministrador) {
 
         this.nome = nome;
         this.senha = senha;
         this.matricula = matricula;
-        this.emailAdministrador = emailAdministrador;
         this.codCurso = codCurso;
+        this.emailAdministrador = emailAdministrador;
     }
 
     public String getNome() {

@@ -1,11 +1,14 @@
 package io.github.avaliacaodocentes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 public class Curso {
 
     private String nome;
     private int codigo;
+    @JsonIgnore
     private String emailAdministrador;
 
     public Curso() {

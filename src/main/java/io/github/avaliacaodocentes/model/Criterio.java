@@ -1,11 +1,14 @@
 package io.github.avaliacaodocentes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 public class Criterio {
 
     private int codigo;
     private String pontoAvaliativo;
+    @JsonIgnore
     private String emailAdministrador;
 
     public Criterio() {
