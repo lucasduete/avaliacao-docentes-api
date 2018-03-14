@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Professor {
 
     private String nome;
-    private String senha;
+    private String foto;
     private String matricula;
     private String emailAdministrador;
     private float nota;
@@ -14,11 +14,9 @@ public class Professor {
 
     }
 
-    public Professor(String nome, String senha, String matricula,
-                     String emailAdministrador, float nota) {
-
+    public Professor(String nome, String foto, String matricula, String emailAdministrador, float nota) {
         this.nome = nome;
-        this.senha = senha;
+        this.foto = foto;
         this.matricula = matricula;
         this.emailAdministrador = emailAdministrador;
         this.nota = nota;
@@ -32,12 +30,12 @@ public class Professor {
         this.nome = nome;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getFoto() {
+        return foto;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public String getMatricula() {
@@ -72,7 +70,6 @@ public class Professor {
         Professor professor = (Professor) o;
         return Float.compare(professor.getNota(), getNota()) == 0 &&
                 Objects.equals(getNome(), professor.getNome()) &&
-                Objects.equals(getSenha(), professor.getSenha()) &&
                 Objects.equals(getMatricula(), professor.getMatricula()) &&
                 Objects.equals(getEmailAdministrador(), professor.getEmailAdministrador());
     }
@@ -80,7 +77,7 @@ public class Professor {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getNome(), getSenha(), getMatricula(), getEmailAdministrador(), getNota());
+        return Objects.hash(getNome(), getFoto(), getMatricula(), getEmailAdministrador(), getNota());
     }
 
     @Override
@@ -88,7 +85,7 @@ public class Professor {
 
         return "Professor{" +
                 "nome='" + nome + '\'' +
-                ", senha='" + senha + '\'' +
+                ", foto='" + foto + '\'' +
                 ", matricula='" + matricula + '\'' +
                 ", emailAdministrador='" + emailAdministrador + '\'' +
                 ", nota=" + nota +
@@ -98,7 +95,6 @@ public class Professor {
     public boolean isEmpty() {
 
         if (    (nome == null || nome.isEmpty())
-                || (senha == null || senha.isEmpty())
                 || (matricula==null || matricula.isEmpty())
                 || (emailAdministrador == null || emailAdministrador.isEmpty() )
                 )
