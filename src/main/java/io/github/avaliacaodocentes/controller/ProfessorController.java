@@ -4,6 +4,7 @@ import io.github.avaliacaodocentes.dao.interfaces.ProfessorDaoInterface;
 import io.github.avaliacaodocentes.factory.Fabrica;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
+import io.github.avaliacaodocentes.model.Professor;
 import io.github.avaliacaodocentes.resources.FotoManagement;
 
 import javax.ws.rs.*;
@@ -56,5 +57,35 @@ public class ProfessorController {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GET
+    @Security({NivelAcesso.NIVEL_1, NivelAcesso.NIVEL_2})
+    @Produces("image/jpeg")
+    @Path("foto/{matProfessor}/")
+    public Response getFotoProfessor(@PathParam("matProfessor") String matProfessor) {
+
+        File foto = FotoManagement.verifyExistsFoto(matProfessor);
+
+        if (foto != null)
+            return Response.ok(foto).build();
+
+        try {
+            ProfessorDaoInterface professorDao = Fabrica.criarFabricaDaoPostgres().criarProfessorDao();
+
+            String fotoBase64 = professorDao.retornarFoto(matProfessor);
+
+            if (fotoBase64 == null)
+                return Response.status(Response.Status.NO_CONTENT).build();
+
+            foto = FotoManagement.decodeFoto(fotoBase64, matProfessor);
+
+            return Response.ok(foto).build();
+
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 }
