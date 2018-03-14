@@ -66,8 +66,8 @@ public class AlunoDaoPostgres implements AlunoDaoInterface {
                         rs.getString("Nome"),
                         rs.getString("Senha"),
                         rs.getString("Matricula"),
-                        rs.getString("EmailAdministrador"),
-                        rs.getInt("CodCurso")
+                        rs.getInt("CodCurso"),
+                        rs.getString("EmailAdministrador")
                 );
 
             rs.close();
