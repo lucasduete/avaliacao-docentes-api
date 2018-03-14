@@ -24,18 +24,17 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
 
     public boolean cadastrar(Professor professor) {
 
-        String sql_1 = "INSERT INTO Professor(Nome, Senha, Matricula, Nota, EmailAdministrador) " +
-                "VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO Professor(Nome, Matricula, Nota, EmailAdministrador) " +
+                "VALUES (?,?,?,?);";
 
         try {
 
-            PreparedStatement stmt = conn.prepareStatement(sql_1);
+            PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, professor.getNome());
-            stmt.setString(2, Encryption.encrypt(professor.getSenha()));
-            stmt.setString(3, professor.getMatricula());
-            stmt.setFloat(4, professor.getNota());
-            stmt.setString(5, professor.getEmailAdministrador());
+            stmt.setString(2, professor.getMatricula());
+            stmt.setFloat(3, professor.getNota());
+            stmt.setString(4, professor.getEmailAdministrador());
 
             stmt.executeUpdate();
 
@@ -52,7 +51,7 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
 
     public boolean editar(Professor professor) {
 
-        String sql = "UPDATE Professor SET Nome = ?, Senha = ?, " +
+        String sql = "UPDATE Professor SET Nome = ?, " +
                 "EmailAdministrador = ? WHERE Matricula ILIKE ?;";
 
         try {
@@ -60,9 +59,8 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, professor.getNome());
-            stmt.setString(2, Encryption.encrypt(professor.getSenha()));
-            stmt.setString(3, professor.getEmailAdministrador());
-            stmt.setString(4, professor.getMatricula());
+            stmt.setString(2, professor.getEmailAdministrador());
+            stmt.setString(3, professor.getMatricula());
 
             stmt.executeUpdate();
 
@@ -79,11 +77,11 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
 
     public boolean remover(String matricula) {
 
-        String sql_1 = "DELETE FROM Professor WHERE Matricula ILIKE ?;";
+        String sql = "DELETE FROM Professor WHERE Matricula ILIKE ?;";
 
         try {
 
-            PreparedStatement stmt = conn.prepareStatement(sql_1);
+            PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, matricula);
 
@@ -103,7 +101,7 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
     public List<Professor> listarTodos() {
         
         List<Professor> professores = new ArrayList<>();
-        String sql = "SELECT * FROM PROFESSOR ORDER BY Nome ASC";
+        String sql = "SELECT Matricula,Nome,Nota FROM PROFESSOR ORDER BY Nome ASC";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -112,11 +110,9 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
             while(rs.next()) {
                 Professor professor = new Professor();
 
-                professor.setEmailAdministrador(rs.getString("emailAdministrador"));
-                professor.setMatricula(rs.getString("matricula"));
-                professor.setNome(rs.getString("nome"));
-                professor.setSenha(rs.getString("senha"));
-                professor.setNota(rs.getFloat("nota"));
+                professor.setMatricula(rs.getString("Matricula"));
+                professor.setNome(rs.getString("Nome"));
+                professor.setNota(rs.getFloat("Nota"));
 
                 professores.add(professor);
             }
