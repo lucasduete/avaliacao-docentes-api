@@ -11,4 +11,6 @@ public interface ProfessorDaoInterface {
     public boolean remover(String matricula);
     public List<Professor> listarTodos();
     public List<Professor> listarPorCurso(int codCurso);
+    public boolean atualizarFoto(String foto, String matricula);
+    public String retornarFoto(String matricula);
 }

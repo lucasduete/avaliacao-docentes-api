@@ -101,7 +101,7 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
     public List<Professor> listarTodos() {
         
         List<Professor> professores = new ArrayList<>();
-        String sql = "SELECT Matricula,Nome,Nota FROM PROFESSOR ORDER BY Nome ASC";
+        String sql = "SELECT Matricula,Nome,Nota FROM PROFESSOR ORDER BY Nome ASC;";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -134,5 +134,52 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
         String sql = "SELECT * FROM PROFESSOR_CURSO WHERE Codigo = ? ORDER BY Nome ASC";
 
         return null;
+    }
+
+    @Override
+    public boolean atualizarFoto(String foto, String matricula) {
+
+        String sql = "UPDATE Professor SET Foto = ? WHERE Matricula ILIKE ?;";
+
+        try {
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, matricula);
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+        } catch (SQLException ex) {
+
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public String retornarFoto(String matricula) {
+
+        String foto = null;
+        String sql = "SELECT Foto FROM PROFESSOR;";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next())
+                foto = rs.getString("Foto");
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return foto;
     }
 }
