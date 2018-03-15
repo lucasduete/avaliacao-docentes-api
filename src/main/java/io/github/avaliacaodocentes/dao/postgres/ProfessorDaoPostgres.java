@@ -145,7 +145,8 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
 
             PreparedStatement stmt = conn.prepareStatement(sql);
 
-            stmt.setString(1, matricula);
+            stmt.setString(1, foto);
+            stmt.setString(2, matricula);
             stmt.executeUpdate();
 
             stmt.close();
