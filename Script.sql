@@ -40,7 +40,7 @@ CREATE TABLE AVALIACAO(
 	Data date NOT NULL,
 	Comentario VARCHAR(200),
 	CONSTRAINT PK_Avaliacao_Codigo PRIMARY KEY(Codigo),
-	CONSTRAINT Avaliacao_Data_Valida CHECK (Data >= now())
+	CONSTRAINT Avaliacao_Data_Valida CHECK (Data <= now())
 );
 
 CREATE TABLE CRITERIO(
