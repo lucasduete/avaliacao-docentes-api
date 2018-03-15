@@ -164,10 +164,13 @@ public class ProfessorDaoPostgres implements ProfessorDaoInterface {
     public String retornarFoto(String matricula) {
 
         String foto = null;
-        String sql = "SELECT Foto FROM PROFESSOR;";
+        String sql = "SELECT Foto FROM Professor WHERE Matricula ILIKE ?;";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, matricula);
+
             ResultSet rs = stmt.executeQuery();
 
             if(rs.next())
