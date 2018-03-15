@@ -22,7 +22,7 @@ public class RankingDaoPostgres implements RankingDaoInterface {
 
     @Override
     public List<Professor> gerarRanking() {
-        String sql = "SELECT Nome, Nota FROM Professor ORDER BY Nota DESC";
+        String sql = "SELECT Matricula, Nome, Nota FROM Professor ORDER BY Nota DESC";
         List<Professor> professores = new ArrayList<>();
 
         try {
@@ -32,6 +32,7 @@ public class RankingDaoPostgres implements RankingDaoInterface {
             while (rs.next()) {
                 Professor professor = new Professor();
 
+                professor.setMatricula(rs.getString("Matricula"));
                 professor.setNome(rs.getString("Nome"));
                 professor.setNota(rs.getFloat("Nota"));
 
@@ -51,8 +52,8 @@ public class RankingDaoPostgres implements RankingDaoInterface {
 
     @Override
     public List<Professor> gerarRankingSemestral(String semestre) {
-        String sql = "SELECT Prof.Nome, AvSemestral.Nota FROM Professor AS Prof " +
-                "JOIN Avaliacao_Semestral AS AvSemestral " +
+        String sql = "SELECT Prof.Matricula, Prof.Nome, AvSemestral.Nota " +
+                "FROM Professor AS Prof JOIN Avaliacao_Semestral AS AvSemestral " +
                 "ON Prof.Matricula = AvSemestral.MatProfessor " +
                 "WHERE Semestre ILIKE ? ORDER BY AvSemestral.Nota DESC;";
         List<Professor> professores = new ArrayList<>();
@@ -67,6 +68,7 @@ public class RankingDaoPostgres implements RankingDaoInterface {
             while (rs.next()) {
                 Professor professor = new Professor();
 
+                professor.setMatricula(rs.getString("Matricula"));
                 professor.setNome(rs.getString("Nome"));
                 professor.setNota(rs.getFloat("Nota"));
 
