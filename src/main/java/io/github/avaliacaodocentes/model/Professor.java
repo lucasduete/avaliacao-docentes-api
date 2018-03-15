@@ -101,9 +101,7 @@ public class Professor {
     public boolean isEmpty() {
 
         if (    (nome == null || nome.isEmpty())
-                || (matricula==null || matricula.isEmpty())
-                || (emailAdministrador == null || emailAdministrador.isEmpty() )
-                )
+                || (matricula==null || matricula.isEmpty()) )
 
             return true;
         else

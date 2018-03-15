@@ -286,18 +286,18 @@ public class AdministradorController {
     }
 
     @Security(NivelAcesso.NIVEL_1)
-    @POST
+    @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("editarProfessor/")
     public Response editarProfessor(Professor professor,
                                     @Context SecurityContext securityContext) {
 
+        if (professor.isEmpty())
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
         professor.setEmailAdministrador(
                 TokenManagement.getToken(securityContext)
         );
-
-        if (professor.isEmpty())
-            return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
             ProfessorDaoInterface professorDao = Fabrica.criarFabricaDaoPostgres()
@@ -317,8 +317,8 @@ public class AdministradorController {
     @Security(NivelAcesso.NIVEL_1)
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("editarProfessor/")
-    public Response editarProfessor(@FormParam("matricula") String matricula) {
+    @Path("removerProfessor/")
+    public Response removerProfessor(@FormParam("matricula") String matricula) {
 
         if (matricula == null || matricula.isEmpty())
             return Response.status(Response.Status.BAD_REQUEST).build();
