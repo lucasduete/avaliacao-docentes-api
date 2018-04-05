@@ -1,9 +1,11 @@
 package io.github.avaliacaodocentes.controller;
 
+import io.github.avaliacaodocentes.dao.interfaces.AvaliacaoDaoInterface;
 import io.github.avaliacaodocentes.dao.interfaces.ProfessorDaoInterface;
 import io.github.avaliacaodocentes.factory.Fabrica;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
+import io.github.avaliacaodocentes.model.Avaliacao;
 import io.github.avaliacaodocentes.model.Professor;
 import io.github.avaliacaodocentes.resources.FotoManagement;
 
@@ -13,6 +15,8 @@ import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("professor")
 public class ProfessorController {
@@ -60,7 +64,6 @@ public class ProfessorController {
     }
 
     @GET
-    @Security({NivelAcesso.NIVEL_1, NivelAcesso.NIVEL_2})
     @Produces("image/jpeg")
     @Path("foto/{matProfessor}/")
     public Response getFotoProfessor(@PathParam("matProfessor") String matProfessor) {
@@ -88,4 +91,27 @@ public class ProfessorController {
         }
 
     }
+
+    @GET
+    @Security({NivelAcesso.NIVEL_1, NivelAcesso.NIVEL_2})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("comentarios/{matProfessor}")
+    public Response listarComentarios(@PathParam("matProfessor") String matProfessor) {
+
+        try {
+            AvaliacaoDaoInterface avaliacaoDao = Fabrica.criarFabricaDaoPostgres()
+                    .criarAvaliacaoDao();
+
+            List<Avaliacao> avaliacoes = avaliacaoDao.listarPorProfessor(matProfessor);
+            List<String> comentarios = new ArrayList<>();
+
+            avaliacoes.forEach(avaliacao -> comentarios.add(avaliacao.getComentario()));
+
+            return Response.ok(comentarios).build();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }
