@@ -111,7 +111,11 @@ public class ProfessorController {
             List<Avaliacao> avaliacoes = avaliacaoDao.listarPorProfessor(matProfessor);
             List<String> comentarios = new ArrayList<>();
 
-            avaliacoes.forEach(avaliacao -> comentarios.add(avaliacao.getComentario()));
+            avaliacoes.forEach(avaliacao -> {
+                String comentario = avaliacao.getComentario();
+                if (comentario != null || !comentario.isEmpty())
+                    comentarios.add(comentario);
+            });
 
             return Response.ok(comentarios).build();
         } catch (SQLException | ClassNotFoundException ex) {
