@@ -149,7 +149,7 @@ public class AvaliacaoDaoPostgres implements AvaliacaoDaoInterface {
     public List<Avaliacao> listarPorProfessor(String matProfessor) {
         String sql = "SELECT Av.Comentario, Av.Data, AAP.matAluno FROM Avaliacao AS Av " +
                 "JOIN Avaliacao_Aluno_Professor AS AAP ON Av.codigo = AAP.codAvaliacao " +
-                "WHERE matProfessor LIKE '?';";
+                "WHERE matProfessor LIKE ?;";
 
         ArrayList<Avaliacao> avaliacoes = null;
         try {
