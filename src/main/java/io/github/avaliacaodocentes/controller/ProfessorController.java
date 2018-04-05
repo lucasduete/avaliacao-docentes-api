@@ -113,7 +113,7 @@ public class ProfessorController {
 
             avaliacoes.forEach(avaliacao -> {
                 String comentario = avaliacao.getComentario();
-                if (comentario != null || !comentario.isEmpty())
+                if (comentario != null && !comentario.isEmpty())
                     comentarios.add(comentario);
 
                 System.out.println("Comentario" + comentario);
