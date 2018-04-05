@@ -44,7 +44,7 @@ public class ProfessorController {
     public Response setFotoProfessor(File foto,
                                      @PathParam("matProfessor") String matProfessor) {
 
-        if (foto == null)
+        if (foto == null || matProfessor == null || matProfessor.isEmpty())
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
@@ -67,6 +67,9 @@ public class ProfessorController {
     @Produces("image/jpeg")
     @Path("foto/{matProfessor}/")
     public Response getFotoProfessor(@PathParam("matProfessor") String matProfessor) {
+
+        if (matProfessor == null || matProfessor.isEmpty())
+            return Response.status(Response.Status.BAD_REQUEST).build();
 
         File foto = FotoManagement.verifyExistsFoto(matProfessor);
 
@@ -97,6 +100,9 @@ public class ProfessorController {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("comentarios/{matProfessor}")
     public Response listarComentarios(@PathParam("matProfessor") String matProfessor) {
+
+        if (matProfessor == null || matProfessor.isEmpty())
+            return Response.status(Response.Status.BAD_REQUEST).build();
 
         try {
             AvaliacaoDaoInterface avaliacaoDao = Fabrica.criarFabricaDaoPostgres()
