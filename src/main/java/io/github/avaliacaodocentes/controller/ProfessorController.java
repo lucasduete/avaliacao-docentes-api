@@ -115,7 +115,11 @@ public class ProfessorController {
                 String comentario = avaliacao.getComentario();
                 if (comentario != null || !comentario.isEmpty())
                     comentarios.add(comentario);
+
+                System.out.println("Comentario" + comentario);
             });
+
+            System.out.printf("\n\ncomentarios : " + comentarios);
 
             return Response.ok(comentarios).build();
         } catch (SQLException | ClassNotFoundException ex) {
