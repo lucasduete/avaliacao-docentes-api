@@ -16,7 +16,7 @@ public class Avaliacao {
         data = LocalDate.now();
     }
 
-    private Avaliacao() {
+    public Avaliacao() {
 
     }
 

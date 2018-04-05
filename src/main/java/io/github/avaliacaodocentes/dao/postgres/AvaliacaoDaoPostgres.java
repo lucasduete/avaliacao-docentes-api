@@ -5,6 +5,11 @@ import io.github.avaliacaodocentes.factory.Conexao;
 import io.github.avaliacaodocentes.model.Avaliacao;
 
 import java.sql.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -139,6 +144,47 @@ public class AvaliacaoDaoPostgres implements AvaliacaoDaoInterface {
         }
 
     }
-    
-    
+
+    @Override
+    public List<Avaliacao> listarPorProfessor(String matProfessor) {
+        String sql = "SELECT Av.Comentario, Av.Data, AAP.matAluno FROM Avaliacao AS Av " +
+                "JOIN Avaliacao_Aluno_Professor AS AAP ON Av.codigo = AAP.codAvaliacao " +
+                "WHERE matProfessor LIKE '?';";
+
+        ArrayList<Avaliacao> avaliacoes = null;
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, matProfessor);
+
+            ResultSet rs = stmt.executeQuery();
+            avaliacoes = new ArrayList<>();
+
+            while (rs.next()) {
+                Avaliacao avaliacao = new Avaliacao();
+
+                Date data = rs.getDate("Data");
+                Instant instant = Instant.ofEpochMilli(data.getTime());
+
+                avaliacao.setData(
+                        LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate()
+                );
+                avaliacao.setComentario(rs.getString("Comentario"));
+                avaliacao.setMatAluno(rs.getString("matAluno"));
+                avaliacao.setMatProfessor(matProfessor);
+                avaliacao.setPontuacoes(null);
+
+                avaliacoes.add(avaliacao);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return avaliacoes;
+    }
 }
