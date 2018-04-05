@@ -6,7 +6,6 @@ import io.github.avaliacaodocentes.factory.Fabrica;
 import io.github.avaliacaodocentes.infraSecurity.Security;
 import io.github.avaliacaodocentes.infraSecurity.model.NivelAcesso;
 import io.github.avaliacaodocentes.model.Avaliacao;
-import io.github.avaliacaodocentes.model.Professor;
 import io.github.avaliacaodocentes.resources.FotoManagement;
 
 import javax.ws.rs.*;
@@ -115,11 +114,7 @@ public class ProfessorController {
                 String comentario = avaliacao.getComentario();
                 if (comentario != null && !comentario.isEmpty())
                     comentarios.add(comentario);
-
-                System.out.println("Comentario" + comentario);
             });
-
-            System.out.printf("\n\ncomentarios : " + comentarios);
 
             return Response.ok(comentarios).build();
         } catch (SQLException | ClassNotFoundException ex) {
